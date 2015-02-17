@@ -334,9 +334,11 @@ angular.module ('myApp', []).factory('gameLogic', function ()
             board = getInitialBoard();
         }
 
-        if (playerStates [turnIndexBeforeMove] === undefined)
+        if (playerStates === undefined)
         {
-            playerStates [turnIndexBeforeMove] = getInitialState ();
+            playerStates = [];
+            playerStates [0] = getInitialState ();
+            playerStates [1] = getInitialBoard ();
         }
 
         var tmpPhase = playerStates [turnIndexBeforeMove].phase;
