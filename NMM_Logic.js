@@ -167,7 +167,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
         }
         return count;
     }
-
+     
     function findAdjacentPosition (board, pos)
     {
         var circuit_index, rotation_index;
@@ -240,7 +240,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
 
     function phaseCacl (board, playerStates, turnIndexBeforeMove)
     {
-        var result;
+        var result = playerStates [turnIndexBeforeMove].phase;
         var num = getCount (board, turnIndexBeforeMove);
         if (num === 9)
             result = 2;
@@ -254,7 +254,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
                }
                else
                {
-                   result = playerStates [turnIndexBeforeMove].phaseLastTime;
+                   result = result === 4? playerStates [turnIndexBeforeMove].phaseLastTime : result;
                }
            }
         }
@@ -287,16 +287,26 @@ angular.module ('myApp', []).factory('gameLogic', function ()
     function getFirstOperation (boardAfterMove, playerStates, turnIndexBeforeMove, tmpPhase)
     {
         var firstOperation;
-        var obj = isMills (boardAfterMove, playerStates.alreadyMills);
-        var tmp = playerStates.alreadyMills;
+        var obj = isMills (boardAfterMove, playerStates[turnIndexBeforeMove].alreadyMills);
+        var tmp = playerStates[turnIndexBeforeMove].alreadyMills;
         var check = checkMills(boardAfterMove, playerStates, turnIndexBeforeMove);
+        var color = (turnIndexBeforeMove === 0 ? 'W' : 'B');
 
         if (check !== -1)
         {
             tmp.splice (check, 1);
-        }
+            var phaseToSet = phaseCacl (boardAfterMove, playerStates, turnIndexBeforeMove);
+            firstOperation = {
+                setTurn: {turnIndex: 1 - turnIndexBeforeMove},
+                updateStates: {
+                    player: turnIndexBeforeMove,
+                    setPhase: phaseToSet,
+                    setAlreadyMills: tmp,
+                    setPhaseLastTime: tmpPhase
+                }
+            };
 
-        if (obj.player !== 'N')
+        } else if (obj.player === color)
         {
             tmp.push (obj.mills);
             firstOperation = {
@@ -338,7 +348,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
         {
             playerStates = [];
             playerStates [0] = getInitialState ();
-            playerStates [1] = getInitialBoard ();
+            playerStates [1] = getInitialState ();
         }
 
         var tmpPhase = playerStates [turnIndexBeforeMove].phase;
@@ -352,7 +362,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
 
         var boardAfterMove = angular.copy(board);
 
-        if (board [circuitIndex][rotationIndex] !== '')
+        if (tmpPhase !== 4 && board [circuitIndex][rotationIndex] !== '')
         {
             throw new Error ("That place has been occupied!");
         }
@@ -390,20 +400,20 @@ angular.module ('myApp', []).factory('gameLogic', function ()
                 else
                 {
                     firstOperation = {endMatch: {endMatchScores:
-                        (winner === 'B' ? [1, 0] : [0, 1])  } };
+                        (winner === 'B' ? [0, 1] : [1, 0])  } };
                 }
             }
         }
         else if (playerStates [turnIndexBeforeMove].phase === 4)
         {
             var oppCoror = (color === 'B' ? 'W' : 'B');
-            if (board [circuitIndex][rotationIndex] !== oppCoror)
+            if (board [circuitIndexOrigin][rotationIndexOrigin] !== oppCoror)
             {
                 throw new Error ("Please choose a man of the enemy to remove!");
             }
             else
             {
-                boardAfterMove [circuitIndex][rotationIndex] = '';
+                boardAfterMove [circuitIndexOrigin][rotationIndexOrigin] = '';
                 winner = getWinner (boardAfterMove, playerStates);
 
                 if (winner === 'N')
@@ -411,7 +421,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
                 else
                 {
                     firstOperation = {endMatch: {endMatchScores:
-                        (winner === 'B' ? [1, 0] : [0, 1])  } };
+                        (winner === 'B' ? [0, 1] : [1, 0])  } };
                 }
             }
 
@@ -430,7 +440,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
     function getAllPossibleMove (board, playerStates, turnIndexBeforeMove)
     {
         var possibleMoves = [];
-        var phase = playerStates [turnIndexBeforeMove];
+        var phase = playerStates [turnIndexBeforeMove].phase;
         var circuitIndex;
         var rotationIndex;
         var circuitIndexOrigin;
@@ -444,8 +454,12 @@ angular.module ('myApp', []).factory('gameLogic', function ()
                 {
                     try
                     {
-                        possibleMoves.push(createMove(board, playerStates, circuitIndex, rotationIndex,
-                            null, null, turnIndexBeforeMove))
+                        if (phase === 1)
+                            possibleMoves.push(createMove(board, playerStates, circuitIndex, rotationIndex,
+                            null, null, turnIndexBeforeMove));
+                        else
+                            possibleMoves.push(createMove(board, playerStates, null, null,
+                            circuitIndex, rotationIndex, turnIndexBeforeMove));
                     } catch (e) {
                         //Move is not valid.
                     }
@@ -466,7 +480,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
                             try
                             {
                                 possibleMoves.push(createMove(board, playerStates, circuitIndex, rotationIndex,
-                                    null, null, turnIndexBeforeMove))
+                                    circuitIndexOrigin, rotationIndexOricin, turnIndexBeforeMove));
                             } catch (e) {
                                 //Move is not valid.
                             }
@@ -477,6 +491,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
                 }
             }
         }
+        return possibleMoves;
     }
 
 
@@ -498,7 +513,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
             var playerStates = stateBeforeMove.playerStates;
 
             var expectedMove = createMove (board, playerStates, circuitIndex, rotationIndex,
-                                           circuitIndexOrigin, rotationIndexOrigin, turnIndexBeforeMove);
+                                            circuitIndexOrigin, rotationIndexOrigin, turnIndexBeforeMove);
 
             if (!angular.equals(move, expectedMove))
             {
