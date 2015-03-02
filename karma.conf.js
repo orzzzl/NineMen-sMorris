@@ -7,7 +7,8 @@ module.exports = function(config){
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js',
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-mocks.js',
       'NMM_Logic.js',
-      'NMM_Logic_Test.js'
+      'NMM_Logic_Test.js',
+      'NMM_Logic_Test_DongboXiao.js'
     ], 
 
     reporters: ['progress', 'coverage'], 
