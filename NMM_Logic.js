@@ -7,159 +7,173 @@
 
 'use strict';
 
-angular.module ('myApp', []).factory('gameLogic', function ()
-{
-    function getInitialBoard ()
-    {
-        return [
+angular.module ('myApp', []).factory('gameLogic', function () {
+    /**
+     * Get initial board for the game.
+     *    (0,0)----------------(0,1)----------------(0,2)
+     *      |                    |                    |
+     *      |   (1,0)----------(1,1)----------(1,2)   |
+     *      |     |              |              |     |
+     *      |     |   (2,0)----(2,1)----(2,2)   |     |
+     *      |     |     |                 |     |     |
+     *    (0,7)-(1,7)-(2,7)             (2,3)-(1,3)-(0,3)
+     *      |     |     |                 |     |     |
+     *      |     |   (2,6)----(2,5)----(2,4)   |     |
+     *      |     |              |              |     |
+     *      |   (1,6)----------(1,5)----------(1,4)   |
+     *      |                    |                    |
+     *    (0,6)----------------(0,5)----------------(0,4)
+     *
+     *    And 'W' stand for white, which is the 0th player,
+     *        'B' stand for black, which is the 1th player.
+     * @returns {*[]}
+     */
+    function getInitialBoard () {
+        return [  ['', '', '', '', '', '', '', ''],
                   ['', '', '', '', '', '', '', ''],
-                  ['', '', '', '', '', '', '', ''],
-                  ['', '', '', '', '', '', '', '']
-                ];
+                  ['', '', '', '', '', '', '', '']  ];
     }
 
-    function getInitialState ()
-    {
-        var obj = {
+    /**
+     * This function returns the initial player states.
+     * @returns {{phase: number, phaseLastTime: number, alreadyMills: Array}}
+     */
+    function getInitialState () {
+        return    {
                    phase: 1,
                    phaseLastTime: 1,
                    alreadyMills: []
                   };
-        return obj;
     }
 
-    function isAlreadyMills (Mills, alreadyMills)
-    {
-        for (var i = 0; i < alreadyMills.length; i ++)
-        {
+    /**
+     * This function checks if a mill is already existed.
+     * @param Mills
+     * @param alreadyMills
+     * @returns {boolean}
+     */
+    function isAlreadyMills (Mills, alreadyMills) {
+        for (var i = 0; i < alreadyMills.length; i ++) {
             if (Mills.sort().toString() === alreadyMills [i].sort().toString())
                 return true;
         }
         return false;
     }
 
-    function isMills (board, alreadyMills)
-    {
+    /**
+     * The purpose of this function is to check if there is mills in the board which is not
+     * included in the alreadyMills array.
+     *
+     * This function return an object with attribute "player" and "mills".
+     * "player" denote for which player forms a mills ("N" stand for no player),
+     * "mills" stores the index number of men which forms a mills.
+     * @param board
+     * @param alreadyMills
+     * @returns {{}}
+     */
+    function isMills (board, alreadyMills) {
         var circuit_index, rotation_index;
         var obj = {};
-        for (rotation_index = 1; rotation_index <= 7; rotation_index += 2)
-        {
 
+        for (rotation_index = 1; rotation_index <= 7; rotation_index += 2) {
             if (
                 board [0][rotation_index] === 'W' &&
                 board [1][rotation_index] === 'W' &&
                 board [2][rotation_index] === 'W' &&
                 !isAlreadyMills ([[0, rotation_index], [1, rotation_index], [2, rotation_index]], alreadyMills)
-            )
-            {
+            ) {
                 obj.player = 'W';
                 obj.mills  = [[0, rotation_index], [1, rotation_index], [2, rotation_index]];
                 return obj;
             }
-
             else if (
                 board [0][rotation_index] === 'B' &&
                 board [1][rotation_index] === 'B' &&
                 board [2][rotation_index] === 'B' &&
                 !isAlreadyMills ([[0, rotation_index], [1, rotation_index], [2, rotation_index]], alreadyMills)
-
-            )
-            {
+            ) {
                 obj.player = 'B';
                 obj.mills  = [[0, rotation_index], [1, rotation_index], [2, rotation_index]];
                 return obj;
             }
         }
-
-        for (circuit_index = 0; circuit_index <= 2; circuit_index ++)
-        {
-            for (rotation_index = 0; rotation_index <= 6; rotation_index += 2)
-            {
+        for (circuit_index = 0; circuit_index <= 2; circuit_index ++) {
+            for (rotation_index = 0; rotation_index <= 6; rotation_index += 2) {
                 if (
                     board [circuit_index][rotation_index          ] === 'W' &&
                     board [circuit_index][rotation_index + 1      ] === 'W' &&
                     board [circuit_index][(rotation_index + 2) % 8] === 'W' &&
                     !isAlreadyMills (
-                                     [
-                                      [circuit_index, rotation_index          ],
-                                      [circuit_index, rotation_index + 1      ],
-                                      [circuit_index, (rotation_index + 2) % 8]
-                                     ], alreadyMills
+                                     [ [circuit_index, rotation_index          ],
+                                       [circuit_index, rotation_index + 1      ],
+                                       [circuit_index, (rotation_index + 2) % 8] ], alreadyMills
                                     )
-                )
-                {
+                ) {
                     obj.player = 'W';
-                    obj.mills = [
-                        [circuit_index, rotation_index          ],
-                        [circuit_index, rotation_index + 1      ],
-                        [circuit_index, (rotation_index + 2) % 8]
-                    ];
+                    obj.mills = [ [circuit_index, rotation_index          ],
+                                  [circuit_index, rotation_index + 1      ],
+                                  [circuit_index, (rotation_index + 2) % 8] ];
                     return obj;
-                }
-                else if (
+                } else if (
                     board [circuit_index][rotation_index          ] === 'B' &&
                     board [circuit_index][rotation_index + 1      ] === 'B' &&
                     board [circuit_index][(rotation_index + 2) % 8] === 'B' &&
                     !isAlreadyMills (
-                        [
-                            [circuit_index, rotation_index          ],
-                            [circuit_index, rotation_index + 1      ],
-                            [circuit_index, (rotation_index + 2) % 8]
-                        ], alreadyMills
+                        [  [circuit_index, rotation_index          ],
+                           [circuit_index, rotation_index + 1      ],
+                           [circuit_index, (rotation_index + 2) % 8]  ], alreadyMills
                     )
-                )
-                {
+                ) {
                     obj.player = 'B';
-                    obj.mills = [
-                        [circuit_index, rotation_index          ],
-                        [circuit_index, rotation_index + 1      ],
-                        [circuit_index, (rotation_index + 2) % 8]
-                    ];
+                    obj.mills = [ [circuit_index, rotation_index          ],
+                                  [circuit_index, rotation_index + 1      ],
+                                  [circuit_index, (rotation_index + 2) % 8] ];
                     return obj;
                 }
-
             }
         }
-
         obj.player = 'N';
         obj.mills = [];
         return obj;
     }
 
-    function isAdjacent (positionA, positionB)
-    {
+    /**
+     * To check if two certain points are adjacent.
+     * @param positionA
+     * @param positionB
+     * @returns {boolean}
+     */
+    function isAdjacent (positionA, positionB) {
         var x = positionA, y = positionB;
 
-        if (x [0] === y [0])
-        {
+        if (x [0] === y [0]) {
             if (Math.abs(x [1] - y [1]) === 1 ||
                 Math.abs(x [1] - y [1]) === 7  )
                 return true;
-        }
-        else if (x [1]     === y [1] &&
-                 x [1] % 2 ===       1)
-        {
+        } else if (x [1]     ===    y [1] &&
+                   x [1] % 2 ===       1) {
             if (Math.abs(x [0] - y [0]) === 1)
                 return true;
         }
-
         return false;
     }
 
-    function getCount (board, turnIndexBeforeMove)
-    {
+    /**
+     * Get the number of men a certain player has on board.
+     * @param board
+     * @param turnIndexBeforeMove
+     * @returns {number}
+     */
+    function getCount (board, turnIndexBeforeMove) {
         var circuit_index, rotation_index, count = 0;
-        for (circuit_index = 0; circuit_index <= 2; circuit_index ++)
-        {
-            for (rotation_index = 0; rotation_index <= 7; rotation_index ++)
-            {
-                if (turnIndexBeforeMove === 0)
-                {
+
+        for (circuit_index = 0; circuit_index <= 2; circuit_index ++) {
+            for (rotation_index = 0; rotation_index <= 7; rotation_index ++) {
+                if (turnIndexBeforeMove === 0) {
                     if (board [circuit_index][rotation_index] === 'W')
                         count ++;
                 }
-                if (turnIndexBeforeMove === 1)
-                {
+                if (turnIndexBeforeMove === 1) {
                     if (board [circuit_index][rotation_index] === 'B')
                         count ++;
                 }
@@ -167,21 +181,25 @@ angular.module ('myApp', []).factory('gameLogic', function ()
         }
         return count;
     }
-     
-    function findAdjacentPosition (board, pos)
-    {
+
+    /**
+     * To find all the points on board that are adjacent to a certain point.
+     * If no point is found, return 'N'
+     * @param board
+     * @param pos
+     * @returns {*}
+     */
+    function findAdjacentPosition (board, pos) {
         var circuit_index, rotation_index;
         var res = [];
         var emp = 1;
-        for (circuit_index = 0; circuit_index <= 2; circuit_index ++)
-        {
-            for (rotation_index = 0; rotation_index <= 7; rotation_index++)
-            {
+
+        for (circuit_index = 0; circuit_index <= 2; circuit_index ++) {
+            for (rotation_index = 0; rotation_index <= 7; rotation_index++) {
                 if (
                     board [circuit_index][rotation_index] === '' &&
                     isAdjacent([circuit_index, rotation_index], pos)
-                )
-                {
+                ) {
                     emp = 0;
                     res.push([circuit_index, rotation_index]);
                 }
@@ -193,27 +211,37 @@ angular.module ('myApp', []).factory('gameLogic', function ()
             return res;
     }
 
-    function isAdjacentPosition (board, turnIndexBeforeMove)
-    {
+    /**
+     * Basically this function is used to judge a winning condition that one player has no place
+     * to move his man.
+     * @param board
+     * @param turnIndexBeforeMove
+     * @returns {boolean}
+     */
+    function isAdjacentPosition (board, turnIndexBeforeMove) {
         var circuit_index, rotation_index;
-        var flag = turnIndexBeforeMove === 0 ? 'W' : 'B';
-        for (circuit_index = 0; circuit_index <= 2; circuit_index ++)
-        {
-            for (rotation_index = 0; rotation_index <= 7; rotation_index++)
-            {
+        var color = turnIndexBeforeMove === 0 ? 'W' : 'B';
+
+        for (circuit_index = 0; circuit_index <= 2; circuit_index ++) {
+            for (rotation_index = 0; rotation_index <= 7; rotation_index++) {
                 if (
-                    board [circuit_index][rotation_index] === flag &&
+                    board [circuit_index][rotation_index] === color &&
                     findAdjacentPosition (board, [circuit_index, rotation_index]) !=='N'
                 )
                     return true;
             }
         }
         return false;
-
     }
 
-    function getWinner (board, playerStates)
-    {
+    /**
+     * This function judges if 'W' wins, 'B' wins or no winner.
+     * If one player has less than 3 men or has no place to move his man, he loose.
+     * @param board
+     * @param playerStates
+     * @returns {string}
+     */
+    function getWinner (board, playerStates) {
         var phaseW = playerStates [0].phase;
         var phaseB = playerStates [1].phase;
 
@@ -223,50 +251,57 @@ angular.module ('myApp', []).factory('gameLogic', function ()
         if (phaseB !== 1 && getCount (board, 1) < 3)
             return 'W';
 
-        if (phaseW === 2)
-        {
+        if (phaseW === 2) {
             if (!isAdjacentPosition (board, 0))
                 return 'B';
         }
 
-        if (phaseB === 2)
-        {
+        if (phaseB === 2) {
             if (!isAdjacentPosition (board, 1))
                 return 'W';
         }
-
         return 'N';
     }
 
-    function phaseCacl (board, playerStates, turnIndexBeforeMove)
-    {
+    /**
+     * This function is to calculate the next phase of the player.
+     * @param board
+     * @param playerStates
+     * @param turnIndexBeforeMove
+     * @returns {number|phase|playerStates.phase}
+     */
+    function phaseCalc (board, playerStates, turnIndexBeforeMove) {
         var result = playerStates [turnIndexBeforeMove].phase;
         var num = getCount (board, turnIndexBeforeMove);
+        var color = turnIndexBeforeMove === 0 ? 'W' : 'B';
+        var obj = isMills(board, playerStates[turnIndexBeforeMove].alreadyMills);
+
+        if (obj.player === color)
+            return 4;
+
         if (num === 9)
             result = 2;
-        else
-        {
-           if (num < 9)
-           {
-               if (num === 3)
-               {
+        else {
+               if (num === 3) {
                    result = 3;
+               } else {
+                   result = (result === 4? playerStates [turnIndexBeforeMove].phaseLastTime : result);
                }
-               else
-               {
-                   result = result === 4? playerStates [turnIndexBeforeMove].phaseLastTime : result;
-               }
-           }
         }
         return result;
     }
 
-    function checkPlace (board, turnIndexBeforeMove, mills)
-    {
-        var color = turnIndexBeforeMove === 0 ? 'W' : 'B';
+    /**
+     * This function is to check if a mills is still existed.
+     * @param board
+     * @param turnIndexBeforeMove
+     * @param mills
+     * @returns {boolean}
+     */
+    function checkPlace (board, turnIndexBeforeMove, mills) {
+        var color = (turnIndexBeforeMove === 0 ? 'W' : 'B');
 
-        for (var i = 0; i < mills.length; i ++)
-        {
+        for (var i = 0; i < mills.length; i ++) {
             if (board [ mills [i][0] ][ mills [i][1] ] !== color)
                 return false;
         }
@@ -274,160 +309,137 @@ angular.module ('myApp', []).factory('gameLogic', function ()
         return true;
     }
 
-    function checkMills (board, playerStates, turnIndexBeforeMove)
-    {
-        for (var i = 0; i < playerStates [turnIndexBeforeMove].alreadyMills.length; i ++)
+    /**
+     * This function is to check if the mills in the already mills array has
+     * disappeared because one man in the mills been move away.
+     * It will return -1 if no mills is been disappeared, or it will return the
+     * index of mills that has disappear.
+     * @param board
+     * @param playerStates
+     * @param turnIndexBeforeMove
+     * @returns {number}
+     */
+    function checkMills (board, playerStates, turnIndexBeforeMove) {
+        for (var i = 0; i < playerStates[turnIndexBeforeMove].alreadyMills.length; i ++)
         {
-            if (!checkPlace (board, turnIndexBeforeMove, playerStates [turnIndexBeforeMove].alreadyMills [i]))
+            if (!checkPlace (board, turnIndexBeforeMove, playerStates[turnIndexBeforeMove].alreadyMills [i]))
                 return i;
         }
         return -1;
     }
 
-    function getFirstOperation (boardAfterMove, playerStates, turnIndexBeforeMove, tmpPhase)
-    {
-        var firstOperation;
-        var obj = isMills (boardAfterMove, playerStates[turnIndexBeforeMove].alreadyMills);
+    /**
+     * This function returns the new playerStates for the next round.
+     * @param board
+     * @param playerStates
+     * @param turnIndexBeforeMove
+     */
+    function getPlayerStates (board, playerStates, turnIndexBeforeMove) {
+        var tmpPhase = playerStates [turnIndexBeforeMove].phase;
+        var obj = isMills (board, playerStates[turnIndexBeforeMove].alreadyMills);
         var tmp = playerStates[turnIndexBeforeMove].alreadyMills;
-        var check = checkMills(boardAfterMove, playerStates, turnIndexBeforeMove);
+        var check = checkMills(board, playerStates, turnIndexBeforeMove);
         var color = (turnIndexBeforeMove === 0 ? 'W' : 'B');
+        var ret = angular.copy(playerStates);
+        var phaseToSet = phaseCalc (board, playerStates, turnIndexBeforeMove);
 
         if (check !== -1)
-        {
             tmp.splice (check, 1);
-            var phaseToSet = phaseCacl (boardAfterMove, playerStates, turnIndexBeforeMove);
-            firstOperation = {
-                setTurn: {turnIndex: 1 - turnIndexBeforeMove},
-                updateStates: {
-                    player: turnIndexBeforeMove,
-                    setPhase: phaseToSet,
-                    setAlreadyMills: tmp,
-                    setPhaseLastTime: tmpPhase
-                }
-            };
 
-        } else if (obj.player === color)
-        {
+        if (obj.player === color)
             tmp.push (obj.mills);
-            firstOperation = {
-                setTurn: {turnIndex: turnIndexBeforeMove},
-                updateStates: {
-                    player: turnIndexBeforeMove,
-                    setPhase: 4,
-                    setAlreadyMills: tmp,
-                    setPhaseLastTime: tmpPhase
-                }
-            };
-        } else
-        {
-            var phaseToSet = phaseCacl (boardAfterMove, playerStates, turnIndexBeforeMove);
-            firstOperation = {
-                setTurn: {turnIndex: 1 - turnIndexBeforeMove},
-                updateStates: {
-                    player: turnIndexBeforeMove,
-                    setPhase: phaseToSet,
-                    setPhaseLastTime: tmpPhase
-                }
 
-            };
-        }
-        return firstOperation;
+        ret [turnIndexBeforeMove].phase = phaseToSet;
+        ret [turnIndexBeforeMove].phaseLastTime = tmpPhase;
+        ret [turnIndexBeforeMove].alreadyMills = tmp;
+        return ret;
     }
+
 
     function createMove (
                          board, playerStates, circuitIndex, rotationIndex,
                          circuitIndexOrigin, rotationIndexOrigin, turnIndexBeforeMove
-                         )
-    {
-        if (board === undefined)
-        {
+                         ) {
+        if (board === undefined) {
             board = getInitialBoard();
         }
 
-        if (playerStates === undefined)
-        {
+        if (playerStates === undefined) {
             playerStates = [];
             playerStates [0] = getInitialState ();
             playerStates [1] = getInitialState ();
         }
 
+        var color = (turnIndexBeforeMove === 0 ? 'W' : 'B');
         var tmpPhase = playerStates [turnIndexBeforeMove].phase;
-
         var firstOperation;
         var winner = getWinner(board, playerStates);
-        if (winner !== 'N')
-        {
+        var boardAfterMove = angular.copy(board);
+        var playerStatesAfterMove;
+
+        if (winner !== 'N') {
             throw new Error ("Can only make a move if the game is not over!");
         }
 
-        var boardAfterMove = angular.copy(board);
-
-        if (tmpPhase !== 4 && board [circuitIndex][rotationIndex] !== '')
-        {
+        if (tmpPhase !== 4 && board [circuitIndex][rotationIndex] !== '') {
             throw new Error ("That place has been occupied!");
         }
 
-        var color = (turnIndexBeforeMove === 0 ? 'W' : 'B');
+        if (playerStates [turnIndexBeforeMove].phase === 1) {
 
-        if (playerStates [turnIndexBeforeMove].phase === 1)
-        {
             boardAfterMove [circuitIndex][rotationIndex] = color;
 
-            firstOperation = getFirstOperation (boardAfterMove, playerStates, turnIndexBeforeMove, tmpPhase);
-        }
-
-        else if (playerStates [turnIndexBeforeMove].phase === 2 ||
+        } else if (playerStates [turnIndexBeforeMove].phase === 2 ||
                  playerStates [turnIndexBeforeMove].phase === 3
-             )
-        {
+                  ) {
+
             if (!isAdjacent ([circuitIndex, rotationIndex], [circuitIndexOrigin, rotationIndexOrigin]) &&
-                playerStates [turnIndexBeforeMove].phase === 2)
-            {
+                playerStates [turnIndexBeforeMove].phase === 2) {
                 throw new Error ("You can only move to an adjacent place!");
-            }
-            else if (board [circuitIndexOrigin][rotationIndexOrigin] !== color)
-            {
+
+            } else if (board [circuitIndexOrigin][rotationIndexOrigin] !== color) {
                 throw new Error ("You can only move the your man!");
-            }
-            else
-            {
+
+            } else {
                 boardAfterMove [circuitIndex][rotationIndex] = color;
                 boardAfterMove [circuitIndexOrigin][rotationIndexOrigin] = '';
 
                 winner = getWinner (boardAfterMove, playerStates);
-                if (winner === 'N')
-                    firstOperation = getFirstOperation (boardAfterMove, playerStates, turnIndexBeforeMove, tmpPhase);
-                else
-                {
+                if (winner !== 'N') {
                     firstOperation = {endMatch: {endMatchScores:
                         (winner === 'B' ? [0, 1] : [1, 0])  } };
                 }
             }
         }
-        else if (playerStates [turnIndexBeforeMove].phase === 4)
-        {
+        else if (playerStates [turnIndexBeforeMove].phase === 4) {
             var oppCoror = (color === 'B' ? 'W' : 'B');
-            if (board [circuitIndexOrigin][rotationIndexOrigin] !== oppCoror)
-            {
+
+            if (board [circuitIndexOrigin][rotationIndexOrigin] !== oppCoror) {
                 throw new Error ("Please choose a man of the enemy to remove!");
-            }
-            else
-            {
+
+            } else {
                 boardAfterMove [circuitIndexOrigin][rotationIndexOrigin] = '';
                 winner = getWinner (boardAfterMove, playerStates);
 
-                if (winner === 'N')
-                    firstOperation = getFirstOperation (boardAfterMove, playerStates, turnIndexBeforeMove, tmpPhase);
-                else
-                {
+                if (winner !== 'N') {
                     firstOperation = {endMatch: {endMatchScores:
                         (winner === 'B' ? [0, 1] : [1, 0])  } };
                 }
             }
-
         }
+
+        if (winner === 'N') {
+            if (isMills(boardAfterMove, playerStates[turnIndexBeforeMove].alreadyMills).player === color)
+                firstOperation = {setTurn: {turnIndex: turnIndexBeforeMove}};
+            else
+                firstOperation = {setTurn: {turnIndex: 1 - turnIndexBeforeMove}};
+        }
+
+        playerStatesAfterMove = getPlayerStates(boardAfterMove, playerStates, turnIndexBeforeMove);
+
         return [firstOperation,
             {set: {key: 'board', value: boardAfterMove}},
+            {set: {key: 'playerStates', value: playerStatesAfterMove}},
             {set: {key: 'delta', value:
             {
                 destination: [circuitIndex, rotationIndex],
@@ -437,8 +449,7 @@ angular.module ('myApp', []).factory('gameLogic', function ()
     }
 
 
-    function getAllPossibleMove (board, playerStates, turnIndexBeforeMove)
-    {
+    function getAllPossibleMove (board, playerStates, turnIndexBeforeMove) {
         var possibleMoves = [];
         var phase = playerStates [turnIndexBeforeMove].phase;
         var circuitIndex;
@@ -446,14 +457,10 @@ angular.module ('myApp', []).factory('gameLogic', function ()
         var circuitIndexOrigin;
         var rotationIndexOricin;
 
-        if (phase === 1 || phase === 4)
-        {
-            for (circuitIndex = 0; circuitIndex <= 2; circuitIndex ++)
-            {
-                for (rotationIndex = 0; rotationIndex <= 7; rotationIndex ++)
-                {
-                    try
-                    {
+        if (phase === 1 || phase === 4) {
+            for (circuitIndex = 0; circuitIndex <= 2; circuitIndex ++) {
+                for (rotationIndex = 0; rotationIndex <= 7; rotationIndex ++) {
+                    try {
                         if (phase === 1)
                             possibleMoves.push(createMove(board, playerStates, circuitIndex, rotationIndex,
                             null, null, turnIndexBeforeMove));
@@ -467,18 +474,12 @@ angular.module ('myApp', []).factory('gameLogic', function ()
             }
         }
 
-        if (phase === 2 || phase === 3)
-        {
-            for (circuitIndex = 0; circuitIndex <= 2; circuitIndex++)
-            {
-                for (rotationIndex = 0; rotationIndex <= 7; rotationIndex++)
-                {
-                    for (circuitIndexOrigin = 0; circuitIndexOrigin <= 2; circuitIndexOrigin++)
-                    {
-                        for (rotationIndexOricin = 0; rotationIndexOricin <= 7; rotationIndexOricin++)
-                        {
-                            try
-                            {
+        if (phase === 2 || phase === 3) {
+            for (circuitIndex = 0; circuitIndex <= 2; circuitIndex++) {
+                for (rotationIndex = 0; rotationIndex <= 7; rotationIndex++) {
+                    for (circuitIndexOrigin = 0; circuitIndexOrigin <= 2; circuitIndexOrigin++) {
+                        for (rotationIndexOricin = 0; rotationIndexOricin <= 7; rotationIndexOricin++) {
+                            try {
                                 possibleMoves.push(createMove(board, playerStates, circuitIndex, rotationIndex,
                                     circuitIndexOrigin, rotationIndexOricin, turnIndexBeforeMove));
                             } catch (e) {
@@ -487,7 +488,6 @@ angular.module ('myApp', []).factory('gameLogic', function ()
 
                         }
                     }
-
                 }
             }
         }
@@ -496,15 +496,13 @@ angular.module ('myApp', []).factory('gameLogic', function ()
 
 
 
-    function isMoveOk (params)
-    {
+    function isMoveOk (params) {
         var move = params.move;
         var turnIndexBeforeMove = params.turnIndexBeforeMove;
         var stateBeforeMove = params.stateBeforeMove;
 
-        try
-        {
-            var deltaVal = move [2].set.value;
+        try {
+            var deltaVal = move [3].set.value;
             var circuitIndex = deltaVal.destination [0];
             var rotationIndex = deltaVal.destination [1];
             var circuitIndexOrigin = deltaVal.origin [0];
@@ -515,12 +513,10 @@ angular.module ('myApp', []).factory('gameLogic', function ()
             var expectedMove = createMove (board, playerStates, circuitIndex, rotationIndex,
                                             circuitIndexOrigin, rotationIndexOrigin, turnIndexBeforeMove);
 
-            if (!angular.equals(move, expectedMove))
-            {
+            if (!angular.equals(move, expectedMove)) {
                 return false;
             }
-        } catch (e)
-        {
+        } catch (e) {
             // if there are any exceptions then the move is illegal
             return false;
         }
