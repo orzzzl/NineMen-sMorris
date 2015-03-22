@@ -11,7 +11,7 @@ angular.module('myApp')
 
             'use strict';
 
-            resizeGameAreaService.setWidthToHeight(0.8614);
+            resizeGameAreaService.setWidthToHeight(.866525424);
 
             function sendComputerMove() {
                 /*
@@ -115,11 +115,11 @@ angular.module('myApp')
                 var cell = $scope.board[row][col];
 
                 if (!$scope.waitPiece || !(row === $scope.lastPlacement.c && col === $scope.lastPlacement.r))
-                    return cell === "W" ? "pic/john.png"
-                        : cell === "B" ? "pic/nick.png" : "";
+                    return cell === "W" ? "imgs/john.png"
+                        : cell === "B" ? "imgs/nick.png" : "";
                 else
-                    return cell === "W" ? "pic/john_selected.png"
-                        : cell === "B" ? "pic/nick_selected.png" : "";
+                    return cell === "W" ? "imgs/john_selected.png"
+                        : cell === "B" ? "imgs/nick_selected.png" : "";
             };
             $scope.shouldSlowlyAppear = function (row, col) {
                 return $scope.delta !== undefined &&
