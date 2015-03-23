@@ -12,8 +12,8 @@ describe('NineMen-sMorris', function() {
         return element(by.id('e2e_test_div_' + row + 'x' + col));
     }
 
-    function getPiece(row, col, pieceKind) {
-        return element(by.id('e2e_test_piece' + pieceKind + '_' + row + 'x' + col));
+    function getImg(row, col) {
+        return element(by.id('e2e_test_img_' + row + 'x' + col));
     }
 
     function expectPiece(row, col, pieceKind) {
@@ -21,13 +21,20 @@ describe('NineMen-sMorris', function() {
         // Originally, my animation started from {opacity: 0;}
         // And then the image wasn't displayed.
         // I changed it to start from {opacity: 0.1;}
-        expect(getPiece(row, col, 'X').isDisplayed()).toEqual(pieceKind === "X" ? true : false);
-        expect(getPiece(row, col, 'O').isDisplayed()).toEqual(pieceKind === "O" ? true : false);
+        var picUrl;
+        if (pieceKind === "")
+            picUrl = null;
+        else if (pieceKind === "W")
+            picUrl = "http://localhost:9000/imgs/john.png";
+        else if (pieceKind === "B")
+            picUrl = "http://localhost:9000/imgs/nick.png";
+        expect(getImg(row, col).isDisplayed()).toEqual(pieceKind === "" ? false : true);
+        expect(getImg(row, col).getAttribute("src")).toEqual(picUrl);
     }
 
     function expectBoard(board) {
         for (var row = 0; row < 3; row++) {
-            for (var col = 0; col < 3; col++) {
+            for (var col = 0; col < 8; col++) {
                 expectPiece(row, col, board[row][col]);
             }
         }
@@ -137,7 +144,7 @@ describe('NineMen-sMorris', function() {
         lastState: {board: board1, delta: delta1},
         currentState: {board: board2, delta: delta2},
         lastVisibleTo: {},
-        currentVisibleTo: {},
+        currentVisibleTo: {}
     };
     var matchState3 = {
         turnIndexBeforeMove: 0,
@@ -149,7 +156,7 @@ describe('NineMen-sMorris', function() {
         lastState: {board: board2, delta: delta2},
         currentState: {board: board3, delta: delta3},
         lastVisibleTo: {},
-        currentVisibleTo: {},
+        currentVisibleTo: {}
     };
     var matchState4 = {
         turnIndexBeforeMove: 0,
@@ -161,7 +168,7 @@ describe('NineMen-sMorris', function() {
         lastState: {board: board2, delta: delta2},
         currentState: {board: board4, delta: delta4},
         lastVisibleTo: {},
-        currentVisibleTo: {},
+        currentVisibleTo: {}
     };
 
     it('can start from a match that is about to end, and win', function () {
