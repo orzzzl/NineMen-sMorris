@@ -43,7 +43,7 @@ describe('NineMen-sMorris', function() {
     function expectBoard(board) {
         for (var row = 0; row < 3; row++) {
             for (var col = 0; col < 8; col++) {
-                console.log(row+" "+col+" "+board[row][col]);
+                //console.log(row+" "+col+" "+board[row][col]);
                 expectPiece(row, col, board[row][col]);
             }
         }
@@ -122,6 +122,12 @@ describe('NineMen-sMorris', function() {
         ['', 'W', '', 'W', 'W', '', '', ''],
         ['', '', '', '', '', '', '', '']
     ];
+
+    var board5 = [
+        ['', 'W', 'B', '', 'B', 'B', '', ''],
+        ['', 'W', '', 'W', 'W', '', 'B', ''],
+        ['', 'W', '', '', '', '', '', '']
+    ];
     var delta1 = {destination: [0, 5], origin: [0, 6]};
 
     var delta2 = {destination: [0, 1], origin: [0, 0]};
@@ -139,7 +145,7 @@ describe('NineMen-sMorris', function() {
     var playerStates3 = [{phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []},
         {phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []}];
 
-    var playerStates3 = [{phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []},
+    var playerStates4 = [{phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []},
         {phase: 1, count: 3, phaseLastTime: 1, alreadyMills: []}];
 
     var matchState2 = {
@@ -149,9 +155,9 @@ describe('NineMen-sMorris', function() {
         lastMove: [{setTurn: {turnIndex: 1}},
             {set: {key: 'board', value: board2}},
             {set: {key: 'playerStates', value: playerStates2}},
-            {set: {key: 'delta', value: delta3}}],
+            {set: {key: 'delta', value: delta2}}],
         lastState: {board: board1, delta: delta1, playerStates: playerStates1},
-        currentState: {board: board2, delta: delta3, playerStates: playerStates2},
+        currentState: {board: board2, delta: delta2, playerStates: playerStates2},
         lastVisibleTo: {},
         currentVisibleTo: {}
     };
@@ -166,25 +172,24 @@ describe('NineMen-sMorris', function() {
     });
 
     var matchState3 = {
-        turnIndexBeforeMove: 0,
-        turnIndex: 1,
+        turnIndexBeforeMove: 1,
+        turnIndex: 0,
         endMatchScores: null,
-        lastMove: [{setTurn: {turnIndex: 1}},
-            {set: {key: 'board', value: board2}},
+        lastMove: [{setTurn: {turnIndex: 0}},
+            {set: {key: 'board', value: board3}},
             {set: {key: 'playerStates', value: playerStates3}},
-            {set: {key: 'delta', value: delta2}}],
+            {set: {key: 'delta', value: delta3}}],
         lastState: {board: board4, delta: delta4, playerStates: playerStates4},
-        currentState: {board: board2, delta: delta2, playerStates: playerStates3},
+        currentState: {board: board3, delta: delta3, playerStates: playerStates3},
         lastVisibleTo: {},
         currentVisibleTo: {}
     };
 
     it('To form a morris in phase 1', function () {
         setMatchState(matchState3, 'passAndPlay');
-        expectBoard(board2);
-//        clickDivAndExpectPiece(0, 3, "C");
-//        clickDivAndExpectPiece(0, 4, "B");
-//        expectBoard(board3);
+        expectBoard(board3);
+        clickDivAndExpectPiece(2, 1, "W");
+        expectBoard(board5);
     });
 
 /*
