@@ -5,7 +5,7 @@ describe('NineMen-sMorris', function() {
     'use strict';
 
     beforeEach(function() {
-        browser.get('http://localhost:9000/game.min.html');
+        browser.get('http://localhost:9001/game.min.html');
     });
 
     function getDiv(row, col) {
@@ -22,12 +22,18 @@ describe('NineMen-sMorris', function() {
         // And then the image wasn't displayed.
         // I changed it to start from {opacity: 0.1;}
         var picUrl;
+
         if (pieceKind === "")
             picUrl = null;
         else if (pieceKind === "W")
-            picUrl = "http://localhost:9000/imgs/john.png";
+            picUrl = "http://localhost:9001/imgs/john.png";
         else if (pieceKind === "B")
-            picUrl = "http://localhost:9000/imgs/nick.png";
+            picUrl = "http://localhost:9001/imgs/nick.png";
+        else if (pieceKind === "A")
+            picUrl = "http://localhost:9001/imgs/john_selected.png";
+        else if (pieceKind === "C")
+            picUrl = "http://localhost:9001/imgs/nick_selected.png";
+
         expect(getImg(row, col).isDisplayed()).toEqual(pieceKind === "" ? false : true);
         expect(getImg(row, col).getAttribute("src")).toEqual(picUrl);
     }
@@ -57,34 +63,85 @@ describe('NineMen-sMorris', function() {
     }
 
     it('should have a title', function () {
-        expect(browser.getTitle()).toEqual('TicTacToe');
+        expect(browser.getTitle()).toEqual("Nine Men's Morris");
     });
 
-    it('should have an empty TicTacToe board', function () {
+    it('should have an empty NNM board', function () {
         expectBoard(
-            [['', '', ''],
-                ['', '', ''],
-                ['', '', '']]);
+            [['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', '']]);
     });
 
-    it('should show X if I click in 0x0', function () {
-        clickDivAndExpectPiece(0, 0, "X");
+
+
+    it('should show W if I click in 0x0', function () {
+        clickDivAndExpectPiece(0, 0, "W");
         expectBoard(
-            [['X', '', ''],
-                ['', '', ''],
-                ['', '', '']]);
+            [['W', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', '']]);
     });
+
 
     it('should ignore clicking on a non-empty cell', function () {
-        clickDivAndExpectPiece(0, 0, "X");
-        clickDivAndExpectPiece(0, 0, "X"); // clicking on a non-empty cell doesn't do anything.
-        clickDivAndExpectPiece(1, 1, "O");
+        clickDivAndExpectPiece(0, 0, "W");
+        clickDivAndExpectPiece(0, 0, "W"); // clicking on a non-empty cell doesn't do anything.
+        clickDivAndExpectPiece(1, 1, "B");
         expectBoard(
-            [['X', '', ''],
-                ['', 'O', ''],
-                ['', '', '']]);
+            [['W', '', '', '', '', '', '', '', ''],
+                ['', 'B', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', '']]);
     });
 
+
+    var board1 = [
+        ['W', '', 'B', 'B', '', 'B', '', ''],
+        ['', 'W', '', 'W', 'W', '', 'B', ''],
+        ['', '', '', '', '', '', '', '']
+    ];
+
+    var board2 = [
+        ['', 'W', 'B', 'B', '', 'B', '', ''],
+        ['', 'W', '', 'W', 'W', '', 'B', ''],
+        ['', '', '', '', '', '', '', '']
+    ];
+
+    var delta1 = {destination: [0, 5], origin: [0, 4]};
+
+    var delta2 = {destination: [0, 1], origin: [0, 0]};
+
+    var playerStates1 = [{phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []},
+        {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}];
+
+    var playerStates2 = [{phase: 2, count: 21, phaseLastTime: 2, alreadyMills: []},
+        {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}];
+
+    var matchState2 = {
+        turnIndexBeforeMove: 1,
+        turnIndex: 0,
+        endMatchScores: null,
+        lastMove: [{setTurn: {turnIndex: 0}},
+            {set: {key: 'board', value: board1}},
+            {set: {key: 'playerStates', value: playerStates1}},
+            {set: {key: 'delta', value: delta1}}],
+        lastState: {board: board1, delta: delta1, playerStates: playerStates1},
+        currentState: {board: board2, delta: delta2, playerStates: playerStates2},
+        lastVisibleTo: {},
+        currentVisibleTo: {}
+    };
+
+    it('a normal move in phase 2', function () {
+        //browser.debugger();
+        setMatchState(matchState2, 'passAndPlay');
+        expectBoard(board1);
+        clickDivAndExpectPiece(0, 0, "A");
+        clickDivAndExpectPiece(0, 1, "W");
+        expectBoard(board2);
+    });
+
+
+/*
     it('should end game if X wins', function () {
         for (var col = 0; col < 3; col++) {
             clickDivAndExpectPiece(1, col, "X");
@@ -96,8 +153,9 @@ describe('NineMen-sMorris', function() {
                 ['X', 'X', 'X'],
                 ['O', 'O', '']]);
     });
+*/
 
-    it('should end the game in tie', function () {
+/*    it('should end the game in tie', function () {
         clickDivAndExpectPiece(0, 0, "X");
         clickDivAndExpectPiece(1, 0, "O");
         clickDivAndExpectPiece(0, 1, "X");
@@ -209,4 +267,5 @@ describe('NineMen-sMorris', function() {
                 ['O', 'X', 'X']]);
         clickDivAndExpectPiece(1, 2, ""); // Can't make a move after game is over
     });
+    */
 });

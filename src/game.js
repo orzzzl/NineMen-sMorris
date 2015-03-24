@@ -52,7 +52,8 @@ angular.module('myApp')
                     $timeout(sendComputerMove, 500);
                 }
             }
-           // window.e2e_test_stateService = stateService; // to allow us to load any state in our e2e tests.
+
+            window.e2e_test_stateService = stateService; // to allow us to load any state in our e2e tests.
 
             $scope.cellClicked = function (row, col) {
 

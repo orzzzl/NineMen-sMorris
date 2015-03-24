@@ -6,8 +6,8 @@ module.exports = function(config){
     files : [
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.js',
       'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-mocks.js',
-      'NMM_Logic.js',
-      'NMM_Logic_Test.js'
+      'src/NMM_Logic.js',
+      'src/NMM_Logic_Test.js'
     ], 
 
     reporters: ['progress', 'coverage'], 
@@ -16,7 +16,7 @@ module.exports = function(config){
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      'NMM_Logic.js': ['coverage']
+      'src/NMM_Logic.js': ['coverage']
     },
 
     // optionally, configure the reporter

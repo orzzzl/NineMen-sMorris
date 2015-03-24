@@ -37,9 +37,11 @@ describe("In Nine Men's Morris", function() {
                                                ['', '', '', '', '', '', '', ''],
                                                ['', '', '', '', '', '', '', ''] ]}},
                 { set: {key: 'playerStates', value: [ {phase: 1,
+                                                       count: 1,
                                                      phaseLastTime: 1,
                                                      alreadyMills: []},
-                                                    {phase: 1,
+                                                       {phase: 1,
+                                                        count: 0,
                                                      phaseLastTime: 1,
                                                      alreadyMills: []} ]}},
                 {set: {key: 'delta', value:
@@ -59,9 +61,11 @@ describe("In Nine Men's Morris", function() {
                 delta: {  destination: [0, 0],
                           origin     : [null, null] },
                 playerStates: [{ phase: 1,
+                                 count: 1,
                                  phaseLastTime: 1,
                                  alreadyMills: [] },
                                { phase: 1,
+                                 count: 0,
                                  phaseLastTime: 1,
                                  alreadyMills: [] }]
             }, [{setTurn: {turnIndex: 0}},
@@ -69,9 +73,11 @@ describe("In Nine Men's Morris", function() {
                                               ['', '', '', '', '', '', '', ''],
                                               ['', '', '', '', '', '', '', '']]}},
                 {set: {key: 'playerStates', value: [{ phase: 1,
+                                                      count: 1,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] },
                                                     { phase: 1,
+                                                        count: 1,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -91,9 +97,11 @@ describe("In Nine Men's Morris", function() {
                 delta: {  destination: [0, 3],
                           origin     : [0, 4]  },
                 playerStates: [{ phase: 2,
+                                 count: 15,
                                  phaseLastTime: 2,
                                  alreadyMills: [] },
                               {  phase: 2,
+                                  count: 14,
                                  phaseLastTime: 2,
                                  alreadyMills: [] }]
             }, [{setTurn: {turnIndex: 0}},
@@ -101,9 +109,11 @@ describe("In Nine Men's Morris", function() {
                                               ['', '', '', 'B', 'B', '', 'W', 'W'],
                                               ['', '', 'B', 'W', '', 'W', '', 'W'] ]}},
                 {set: {key: 'playerStates', value: [{ phase: 2,
+                                                      count: 15,
                                                       phaseLastTime: 2,
                                                       alreadyMills: [] },
                                                     { phase: 2,
+                                                      count: 15,
                                                       phaseLastTime: 2,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -122,9 +132,11 @@ describe("In Nine Men's Morris", function() {
                 delta: { destination: [0, 2], origin: [null, null] },
                 playerStates: [{
                         phase: 1,
+                        count: 6,
                         phaseLastTime: 1,
                         alreadyMills: []}, {
                         phase: 1,
+                        count: 6,
                         phaseLastTime: 1,
                         alreadyMills: []}]}, [
                 {setTurn: {turnIndex: 0}},
@@ -134,9 +146,11 @@ describe("In Nine Men's Morris", function() {
                     ['', '', 'B', 'W', '', 'W', '', 'W']
                 ]}},
                 {set: {key: 'playerStates', value: [{ phase: 4,
+                                                      count: 7,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [[[0, 7], [1, 7], [2, 7]]] },
                                                     { phase: 1,
+                                                      count: 6,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -153,9 +167,11 @@ describe("In Nine Men's Morris", function() {
                 delta: { destination: [0, 2], origin: [null, null] },
                 playerStates: [{
                     phase: 1,
+                    count: 6,
                     phaseLastTime: 1,
                     alreadyMills: []}, {
                     phase: 1,
+                    count: 6,
                     phaseLastTime: 1,
                     alreadyMills: []}]}, [
                 {setTurn: {turnIndex: 0}},
@@ -165,9 +181,11 @@ describe("In Nine Men's Morris", function() {
                     ['', '', 'B', 'W', '', 'W', '', 'W']
                 ]}},
                 {set: {key: 'playerStates', value: [{ phase: 4,
+                                                      count: 7,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [[[1, 6], [1, 7], [1, 0]]] },
                                                     { phase: 1,
+                                                        count: 6,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -184,9 +202,11 @@ describe("In Nine Men's Morris", function() {
                 delta: { destination: [0, 3], origin: [null, null] },
                 playerStates: [{
                     phase: 1,
+                    count: 6,
                     phaseLastTime: 1,
                     alreadyMills: []}, {
                     phase: 1,
+                    count: 6,
                     phaseLastTime: 1,
                     alreadyMills: []}]}, [
                 {setTurn: {turnIndex: 1}},
@@ -196,9 +216,11 @@ describe("In Nine Men's Morris", function() {
                     ['', 'B', '', 'W', '', 'W', '', 'W']
                 ]}},
                 {set: {key: 'playerStates', value: [{ phase: 1,
+                                                      count: 6,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] },
                                                     { phase: 4,
+                                                      count: 7,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [[[0, 1], [1, 1], [2, 1]]] }]}},
                 {set: {key: 'delta', value:
@@ -215,9 +237,11 @@ describe("In Nine Men's Morris", function() {
                 delta: { destination: [0, 2], origin: [null, null] },
                 playerStates: [{
                     phase: 1,
+                    count: 6,
                     phaseLastTime: 1,
                     alreadyMills: []}, {
                     phase: 1,
+                    count: 6,
                     phaseLastTime: 1,
                     alreadyMills: []}]}, [
                 {setTurn: {turnIndex: 1}},
@@ -227,9 +251,11 @@ describe("In Nine Men's Morris", function() {
                     ['', '', 'B', 'W', '', 'W', '', 'W']
                 ]}},
                 {set: {key: 'playerStates', value: [{ phase: 1,
+                                                      count: 6,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] },
                                                     { phase: 4,
+                                                        count: 7,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [[[1, 2], [1, 3], [1, 4]]] }]}},
                 {set: {key: 'delta', value:
@@ -247,9 +273,11 @@ describe("In Nine Men's Morris", function() {
                          origin     : [null, null] },
                 playerStates: [{
                     phase: 4,
+                    count: 7,
                     phaseLastTime: 1,
                     alreadyMills: [[[0, 7], [1, 7], [2, 7]]]}, {
                     phase: 1,
+                    count: 6,
                     phaseLastTime: 1,
                     alreadyMills: []}]}, [
                 {setTurn: {turnIndex: 1}},
@@ -258,9 +286,11 @@ describe("In Nine Men's Morris", function() {
                     ['', '', '', 'B', 'B', '', 'W', 'W'],
                     ['', '', 'B', 'W', '', 'W', '', 'W'] ]}},
                 {set: {key: 'playerStates', value: [{ phase: 1,
+                                                      count: 7,
                                                       phaseLastTime: 4,
                                                       alreadyMills: [[[0, 7], [1, 7], [2, 7]]] },
                                                     { phase: 1,
+                                                        count: 6,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -278,9 +308,11 @@ describe("In Nine Men's Morris", function() {
                 delta: { destination: [null, null],
                          origin     : [1, 1]},
                 playerStates: [{ phase: 2,
+                                 count: 20,
                                 phaseLastTime: 4,
                                 alreadyMills: [[[0, 7], [1, 7], [2, 7]]]},
                                { phase: 3,
+                                   count: 20,
                                  phaseLastTime: 2,
                                  alreadyMills: []}]},
                 [{setTurn: {turnIndex: 0}},
@@ -289,9 +321,11 @@ describe("In Nine Men's Morris", function() {
                      ['', '', '', 'B', '', '', 'W', 'W'],
                      ['', '', 'B', 'W', '', 'W', '', 'W'] ]}},
                  {set: {key: 'playerStates', value: [{ phase: 2,
+                                                       count: 20,
                                                        phaseLastTime: 4,
                                                        alreadyMills: [[[0, 7], [1, 7], [2, 7]]] },
                                                      { phase: 3,
+                                                         count: 21,
                                                        phaseLastTime: 3,
                                                        alreadyMills: [] }]}},
                  {set: {key: 'delta', value:
@@ -308,9 +342,11 @@ describe("In Nine Men's Morris", function() {
                     ['', '', 'B', 'W', '', 'W', '', 'W']],
                 delta: { destination: [0, 0], origin: [1, 3]},
                 playerStates: [{ phase: 2,
+                    count: 20,
                     phaseLastTime: 4,
                     alreadyMills: [[[0, 7], [1, 7], [2, 7]], [[0, 5],[1, 5], [2, 5]]]},
                       { phase: 3,
+                          count: 20,
                         phaseLastTime: 3,
                         alreadyMills: []}]},
             [   {setTurn: {turnIndex: 1}},
@@ -319,9 +355,11 @@ describe("In Nine Men's Morris", function() {
                     ['', '', '', '', '', 'W', '', 'W'],
                     ['', '', 'B', 'W', '', 'W', '', 'W']]}},
                 {set: {key: 'playerStates', value: [{ phase: 2,
+                                                      count: 21,
                                                       phaseLastTime: 2,
                                                       alreadyMills: [[[0, 7], [1, 7], [2, 7]]] },
                                                     { phase: 3,
+                                                        count: 20,
                                                       phaseLastTime: 3,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -397,17 +435,19 @@ describe("In Nine Men's Morris", function() {
                     ['', 'B', '' , '' , 'B', 'W', 'B', '' ], 
                     ['', '' , '' , '' , '' , 'B', '' , '' ] ],
            delta: { destination: [0, 0], origin: [0, 1]},
-           playerStates:[{phase: 2, phaseLastTime: 2, alreadyMills: []},
-                         {phase: 2, phaseLastTime: 2, alreadyMills: []}]},
+           playerStates:[{phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []},
+                         {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}]},
            [   {endMatch: {endMatchScores: [0, 1]}},
                {set: {key: 'board', value:
                    [ ['W', 'B', 'W', 'B', 'W', 'B', 'B', 'B'],
                        ['', '', '' , '' , 'B', 'W', 'B', '' ],
                        ['', '' , '' , '' , '' , 'B', '' , '' ] ]}},
                {set: {key: 'playerStates', value: [{ phase: 2,
+                                                     count: 20,
                                                      phaseLastTime: 2,
                                                      alreadyMills: [] },
                                                    { phase: 2,
+                                                       count: 21,
                                                      phaseLastTime: 2,
                                                      alreadyMills: [] }]}},
                {set: {key: 'delta', value:
@@ -423,17 +463,19 @@ describe("In Nine Men's Morris", function() {
                     ['', 'W', '' , '' , 'W', 'B', 'W', '' ],
                     ['', '' , '' , '' , '' , 'W', '' , '' ] ],
                 delta: { destination: [0, 0], origin: [0, 1]},
-                playerStates:[{phase: 2, phaseLastTime: 2, alreadyMills: []},
-                              {phase: 2, phaseLastTime: 2, alreadyMills: []}]},
+                playerStates:[{phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []},
+                              {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}]},
             [   {endMatch: {endMatchScores: [1, 0]}},
                 {set: {key: 'board', value:
                     [ ['B', 'W', 'B', 'W', 'B', 'W', 'W', 'W'],
                         ['', '', '' , '' , 'W', 'B', 'W', '' ],
                         ['', '' , '' , '' , '' , 'W', '' , '' ] ]}},
                 {set: {key: 'playerStates', value: [{ phase: 2,
+                                                      count: 21,
                                                       phaseLastTime: 2,
                                                       alreadyMills: [] },
                                                     { phase: 2,
+                                                        count: 20,
                                                       phaseLastTime: 2,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -450,17 +492,19 @@ describe("In Nine Men's Morris", function() {
                     ['B', 'W', '' , '' , 'W', 'B', 'W', '' ],
                     ['W', 'B' , 'B' , '' , '' , 'W', '' , '' ] ],
                 delta: { destination: [0, 0], origin: [null, null]},
-                playerStates:[{phase: 1, phaseLastTime: 1, alreadyMills: []},
-                              {phase: 1, phaseLastTime: 1, alreadyMills: []}]},
+                playerStates:[{phase: 1, count: 8, phaseLastTime: 1, alreadyMills: []},
+                              {phase: 1, count: 8, phaseLastTime: 1, alreadyMills: []}]},
             [   {setTurn: {turnIndex: 1}},
                 {set: {key: 'board', value:
                       [ ['B', '', 'B', 'W', 'B', 'W', 'W', 'W'],
                         ['B', 'W', '' , '' , 'W', 'B', 'W', '' ],
                         ['W', 'B' , 'B' , '' , '' , 'W', '' , '' ] ]}},
                 {set: {key: 'playerStates', value: [{ phase: 2,
+                                                      count: 9,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] },
                                                     { phase: 1,
+                                                        count: 8,
                                                       phaseLastTime: 1,
                                                       alreadyMills: [] }]}},
                 {set: {key: 'delta', value:
@@ -549,8 +593,8 @@ describe("In Nine Men's Morris", function() {
         var board = [ ['', 'W', 'W', 'B', 'W', 'B', 'B', 'B'],
                       ['', 'B', '' , '' , 'B', 'W', 'B', '' ],
                       ['', '' , '' , '' , '' , 'B', '' , '' ] ];
-        var playerStates = [{phase: 2, phaseLastTime: 2, alreadyMills: []},
-                            {phase: 2, phaseLastTime: 2, alreadyMills: []}];
+        var playerStates = [{phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []},
+                            {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}];
         var possibleMoves = _gameLogic.getAllPossibleMove(board, playerStates, 0);
         var expectedMove = [
             {setTurn: {turnIndex: 1}},
@@ -560,9 +604,11 @@ describe("In Nine Men's Morris", function() {
                     ['' , '' , '' , '' , '' , 'B', '' , '' ] ]
             }},
             {set: {key: 'playerStates', value: [{ phase: 2,
+                                                  count: 21,
                                                   phaseLastTime: 2,
                                                   alreadyMills: [] },
                                                 { phase: 2,
+                                                    count: 20,
                                                   phaseLastTime: 2,
                                                   alreadyMills: [] }]}},
             {   set: {key: 'delta', value:
