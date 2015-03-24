@@ -1,5 +1,6 @@
 /* https://github.com/angular/protractor/blob/master/docs/toc.md */
 
+
 describe('NineMen-sMorris', function() {
 
     'use strict';
@@ -35,12 +36,14 @@ describe('NineMen-sMorris', function() {
             picUrl = "http://localhost:9001/imgs/nick_selected.png";
 
         expect(getImg(row, col).isDisplayed()).toEqual(pieceKind === "" ? false : true);
-        expect(getImg(row, col).getAttribute("src")).toEqual(picUrl);
+        if (pieceKind !== "")
+            expect(getImg(row, col).getAttribute("src")).toEqual(picUrl);
     }
 
     function expectBoard(board) {
         for (var row = 0; row < 3; row++) {
             for (var col = 0; col < 8; col++) {
+                console.log(row+" "+col+" "+board[row][col]);
                 expectPiece(row, col, board[row][col]);
             }
         }
@@ -61,6 +64,7 @@ describe('NineMen-sMorris', function() {
             angular.element(document).scope().$apply(); // to tell angular that things changes.
         }, JSON.stringify(matchState), JSON.stringify(playMode));
     }
+
 
     it('should have a title', function () {
         expect(browser.getTitle()).toEqual("Nine Men's Morris");
@@ -107,7 +111,12 @@ describe('NineMen-sMorris', function() {
         ['', '', '', '', '', '', '', '']
     ];
 
-    var delta1 = {destination: [0, 5], origin: [0, 4]};
+    var board3 = [
+        ['', 'W', 'B', '', 'B', 'B', '', ''],
+        ['', 'W', '', 'W', 'W', '', 'B', ''],
+        ['', '', '', '', '', '', '', '']
+    ];
+    var delta1 = {destination: [0, 5], origin: [0, 6]};
 
     var delta2 = {destination: [0, 1], origin: [0, 0]};
 
@@ -118,27 +127,29 @@ describe('NineMen-sMorris', function() {
         {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}];
 
     var matchState2 = {
-        turnIndexBeforeMove: 1,
-        turnIndex: 0,
+        turnIndexBeforeMove: 0,
+        turnIndex: 1,
         endMatchScores: null,
-        lastMove: [{setTurn: {turnIndex: 0}},
-            {set: {key: 'board', value: board1}},
-            {set: {key: 'playerStates', value: playerStates1}},
-            {set: {key: 'delta', value: delta1}}],
+        lastMove: [{setTurn: {turnIndex: 1}},
+            {set: {key: 'board', value: board2}},
+            {set: {key: 'playerStates', value: playerStates2}},
+            {set: {key: 'delta', value: delta2}}],
         lastState: {board: board1, delta: delta1, playerStates: playerStates1},
         currentState: {board: board2, delta: delta2, playerStates: playerStates2},
         lastVisibleTo: {},
         currentVisibleTo: {}
     };
 
-    it('a normal move in phase 2', function () {
-        //browser.debugger();
+
+    it('a normal select in phase 2', function () {
         setMatchState(matchState2, 'passAndPlay');
-        expectBoard(board1);
-        clickDivAndExpectPiece(0, 0, "A");
-        clickDivAndExpectPiece(0, 1, "W");
         expectBoard(board2);
+        clickDivAndExpectPiece(0, 3, "C");
+        clickDivAndExpectPiece(0, 4, "B");
+        expectBoard(board3);
     });
+
+    
 
 
 /*

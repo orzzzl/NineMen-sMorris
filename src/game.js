@@ -11,6 +11,7 @@ angular.module('myApp')
 
             'use strict';
 
+
             resizeGameAreaService.setWidthToHeight(.866525424);
 
             function sendComputerMove() {
