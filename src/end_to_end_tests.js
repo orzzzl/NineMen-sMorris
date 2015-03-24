@@ -128,6 +128,20 @@ describe('NineMen-sMorris', function() {
         ['', 'W', '', 'W', 'W', '', 'B', ''],
         ['', 'W', '', '', '', '', '', '']
     ];
+
+    var board6 = [
+        ['', '', 'B', '', 'B', 'B', '', ''],
+        ['', 'W', '', 'W', 'W', '', '', ''],
+        ['', '', '', '', '', '', '', '']
+    ];
+
+    var board7 = [
+        ['', '', 'B', '', 'B', 'B', '', ''],
+        ['', '', '', 'W', 'W', '', '', ''],
+        ['', '', '', '', 'W', '', '', '']
+    ];
+
+
     var delta1 = {destination: [0, 5], origin: [0, 6]};
 
     var delta2 = {destination: [0, 1], origin: [0, 0]};
@@ -135,6 +149,10 @@ describe('NineMen-sMorris', function() {
     var delta3 = {destination: [1, 6], origin: [null, null]};
 
     var delta4 = {destination: [0, 1], origin: [null, null]};
+
+    var delta5 = {destination: [0, 2], origin: [2, 7]};
+
+    var delta6 = {destination: [2, 4], origin: [1, 1]};
 
     var playerStates1 = [{phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []},
         {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}];
@@ -147,6 +165,12 @@ describe('NineMen-sMorris', function() {
 
     var playerStates4 = [{phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []},
         {phase: 1, count: 3, phaseLastTime: 1, alreadyMills: []}];
+
+    var playerStates5 = [{phase: 3, count: 33, phaseLastTime: 3, alreadyMills: []},
+        {phase: 3, count: 33, phaseLastTime: 3, alreadyMills: []}];
+
+    var playerStates6 = [{phase: 3, count: 33, phaseLastTime: 3, alreadyMills: []},
+        {phase: 3, count: 34, phaseLastTime: 3, alreadyMills: []}];
 
     var matchState2 = {
         turnIndexBeforeMove: 0,
@@ -162,15 +186,6 @@ describe('NineMen-sMorris', function() {
         currentVisibleTo: {}
     };
 
-
-    it('a normal select in phase 2', function () {
-        setMatchState(matchState2, 'passAndPlay');
-        expectBoard(board2);
-        clickDivAndExpectPiece(0, 3, "C");
-        clickDivAndExpectPiece(0, 4, "B");
-        expectBoard(board3);
-    });
-
     var matchState3 = {
         turnIndexBeforeMove: 1,
         turnIndex: 0,
@@ -185,6 +200,29 @@ describe('NineMen-sMorris', function() {
         currentVisibleTo: {}
     };
 
+    var matchState4 = {
+        turnIndexBeforeMove: 1,
+        turnIndex: 0,
+        endMatchScores: null,
+        lastMove: [{setTurn: {turnIndex: 0}},
+            {set: {key: 'board', value: board6}},
+            {set: {key: 'playerStates', value: playerStates6}},
+            {set: {key: 'delta', value: delta6}}],
+        lastState: {board: board5, delta: delta5, playerStates: playerStates5},
+        currentState: {board: board6, delta: delta6, playerStates: playerStates6},
+        lastVisibleTo: {},
+        currentVisibleTo: {}
+    };
+
+    it('a normal select in phase 2', function () {
+        setMatchState(matchState2, 'passAndPlay');
+        expectBoard(board2);
+        clickDivAndExpectPiece(0, 3, "C");
+        clickDivAndExpectPiece(0, 4, "B");
+        expectBoard(board3);
+    });
+
+
     it('To form a morris in phase 1', function () {
         setMatchState(matchState3, 'passAndPlay');
         expectBoard(board3);
@@ -192,6 +230,22 @@ describe('NineMen-sMorris', function() {
         expectBoard(board5);
     });
 
+    it('select a piece in phase2', function () {
+        setMatchState(matchState2, 'passAndPlay');
+        expectBoard(board2);
+        clickDivAndExpectPiece(0, 3, "C");
+        expectBoard([
+            ['', 'W', 'B', 'C', '', 'B', '', ''],
+            ['', 'W', '', 'W', 'W', '', 'B', ''],
+            ['', '', '', '', '', '', '', '']
+        ])
+    });
+/*
+    it('flying test', function () {
+        setMatchState(matchState4, 'passAndPlay');
+        expectBoard(board6);
+    });
+*/
 /*
     it('should end game if X wins', function () {
         for (var col = 0; col < 3; col++) {
