@@ -169,8 +169,8 @@ describe('NineMen-sMorris', function() {
     var playerStates5 = [{phase: 3, count: 33, phaseLastTime: 3, alreadyMills: []},
         {phase: 3, count: 33, phaseLastTime: 3, alreadyMills: []}];
 
-    var playerStates6 = [{phase: 3, count: 33, phaseLastTime: 3, alreadyMills: []},
-        {phase: 3, count: 34, phaseLastTime: 3, alreadyMills: []}];
+    var playerStates6 = [{phase: 3, count: 34, phaseLastTime: 3, alreadyMills: []},
+        {phase: 3, count: 33, phaseLastTime: 3, alreadyMills: []}];
 
     var matchState2 = {
         turnIndexBeforeMove: 0,
@@ -201,15 +201,15 @@ describe('NineMen-sMorris', function() {
     };
 
     var matchState4 = {
-        turnIndexBeforeMove: 1,
-        turnIndex: 0,
+        turnIndexBeforeMove: 0,
+        turnIndex: 1,
         endMatchScores: null,
-        lastMove: [{setTurn: {turnIndex: 0}},
-            {set: {key: 'board', value: board6}},
+        lastMove: [{setTurn: {turnIndex: 1}},
+            {set: {key: 'board', value: board7}},
             {set: {key: 'playerStates', value: playerStates6}},
             {set: {key: 'delta', value: delta6}}],
-        lastState: {board: board5, delta: delta5, playerStates: playerStates5},
-        currentState: {board: board6, delta: delta6, playerStates: playerStates6},
+        lastState: {board: board6, delta: delta5, playerStates: playerStates5},
+        currentState: {board: board7, delta: delta6, playerStates: playerStates6},
         lastVisibleTo: {},
         currentVisibleTo: {}
     };
@@ -240,137 +240,100 @@ describe('NineMen-sMorris', function() {
             ['', '', '', '', '', '', '', '']
         ])
     });
-/*
+
     it('flying test', function () {
         setMatchState(matchState4, 'passAndPlay');
-        expectBoard(board6);
+        expectBoard(board7);
     });
-*/
-/*
-    it('should end game if X wins', function () {
-        for (var col = 0; col < 3; col++) {
-            clickDivAndExpectPiece(1, col, "X");
-            // After the game ends, player "O" click (in cell 2x2) will be ignored.
-            clickDivAndExpectPiece(2, col, col === 2 ? "" : "O");
-        }
+
+
+    it('at phase 2, after we move a piece to nearby filled position,' +
+    'if 3 on a line, we can remove a piece', function () {
+        clickDivAndExpectPiece(0, 0, "W");
+        clickDivAndExpectPiece(0, 1, "B");
+        clickDivAndExpectPiece(0, 4, "W");
+        clickDivAndExpectPiece(0, 5, "B");
+        clickDivAndExpectPiece(0, 2, "W");
+        clickDivAndExpectPiece(0, 3, "B");
+        clickDivAndExpectPiece(0, 6, "W");
+        clickDivAndExpectPiece(0, 7, "B");
+        clickDivAndExpectPiece(1, 0, "W");
+        clickDivAndExpectPiece(1, 1, "B");
+        clickDivAndExpectPiece(1, 2, "W");
+        clickDivAndExpectPiece(1, 5, "B");
+        clickDivAndExpectPiece(1, 6, "W");
+        clickDivAndExpectPiece(1, 3, "B");
+        clickDivAndExpectPiece(1, 4, "W");
+        clickDivAndExpectPiece(1, 7, "B");
+        clickDivAndExpectPiece(2, 3, "W");
+        clickDivAndExpectPiece(2, 4, "B");
+        //phase 1 end
         expectBoard(
-            [['', '', ''],
-                ['X', 'X', 'X'],
-                ['O', 'O', '']]);
-    });
-*/
-
-/*    it('should end the game in tie', function () {
-        clickDivAndExpectPiece(0, 0, "X");
-        clickDivAndExpectPiece(1, 0, "O");
-        clickDivAndExpectPiece(0, 1, "X");
-        clickDivAndExpectPiece(1, 1, "O");
-        clickDivAndExpectPiece(1, 2, "X");
-        clickDivAndExpectPiece(0, 2, "O");
-        clickDivAndExpectPiece(2, 0, "X");
-        clickDivAndExpectPiece(2, 1, "O");
-        clickDivAndExpectPiece(2, 2, "X");
+            [['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['', '', '', 'W', 'B', '', '', '']]);
+        //move W
+        clickDivAndExpectPiece(2, 3, "A");
+        clickDivAndExpectPiece(2, 2, "W");
         expectBoard(
-            [['X', 'X', 'O'],
-                ['O', 'O', 'X'],
-                ['X', 'O', 'X']]);
-    });
-
-    var delta1 = {row: 1, col: 0};
-    var board1 =
-        [['X', 'O', ''],
-            ['X', '', ''],
-            ['', '', '']];
-    var delta2 = {row: 1, col: 1};
-    var board2 =
-        [['X', 'O', ''],
-            ['X', 'O', ''],
-            ['', '', '']];
-    var delta3 = {row: 2, col: 0};
-    var board3 =
-        [['X', 'O', ''],
-            ['X', 'O', ''],
-            ['X', '', '']];
-    var delta4 = {row: 2, col: 1};
-    var board4 =
-        [['X', 'O', ''],
-            ['X', 'O', ''],
-            ['', 'X', '']];
-
-    var matchState2 = {
-        turnIndexBeforeMove: 1,
-        turnIndex: 0,
-        endMatchScores: null,
-        lastMove: [{setTurn: {turnIndex: 0}},
-            {set: {key: 'board', value: board2}},
-            {set: {key: 'delta', value: delta2}}],
-        lastState: {board: board1, delta: delta1},
-        currentState: {board: board2, delta: delta2},
-        lastVisibleTo: {},
-        currentVisibleTo: {}
-    };
-    var matchState3 = {
-        turnIndexBeforeMove: 0,
-        turnIndex: -2,
-        endMatchScores: [1, 0],
-        lastMove: [{endMatch: {endMatchScores: [1, 0]}},
-            {set: {key: 'board', value: board3}},
-            {set: {key: 'delta', value: delta3}}],
-        lastState: {board: board2, delta: delta2},
-        currentState: {board: board3, delta: delta3},
-        lastVisibleTo: {},
-        currentVisibleTo: {}
-    };
-    var matchState4 = {
-        turnIndexBeforeMove: 0,
-        turnIndex: 1,
-        endMatchScores: null,
-        lastMove: [{setTurn: {turnIndex: 1}},
-            {set: {key: 'board', value: board4}},
-            {set: {key: 'delta', value: delta4}}],
-        lastState: {board: board2, delta: delta2},
-        currentState: {board: board4, delta: delta4},
-        lastVisibleTo: {},
-        currentVisibleTo: {}
-    };
-
-    it('can start from a match that is about to end, and win', function () {
-        setMatchState(matchState2, 'passAndPlay');
-        expectBoard(board2);
-        clickDivAndExpectPiece(2, 0, "X"); // winning click!
-        clickDivAndExpectPiece(2, 1, ""); // can't click after game ended
-        expectBoard(board3);
-    });
-
-    it('cannot play if it is not your turn', function () {
-        // Now make sure that if you're playing "O" (your player index is 1) then
-        // you can't do the winning click!
-        setMatchState(matchState2, 1); // playMode=1 means that yourPlayerIndex=1.
-        expectBoard(board2);
-        clickDivAndExpectPiece(2, 0, ""); // can't do the winning click!
-        expectBoard(board2);
-    });
-
-    it('can start from a match that ended', function () {
-        setMatchState(matchState3, 'passAndPlay');
-        expectBoard(board3);
-        clickDivAndExpectPiece(2, 1, ""); // can't click after game ended
-    });
-
-    it('should make an AI move after at most 1.5 seconds', function () {
-        setMatchState(matchState4, 'playAgainstTheComputer');
-        browser.sleep(1500);
+            [['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['', '', 'W', '', 'B', '', '', '']]);
+        ////move B
+        clickDivAndExpectPiece(2, 4, "C");
+        clickDivAndExpectPiece(2, 5, "B");
         expectBoard(
-            [['X', 'O', ''],
-                ['X', 'O', ''],
-                ['O', 'X', '']]);
-        clickDivAndExpectPiece(2, 2, "X"); // Human-player X did a very stupid move!
-        browser.sleep(1500); // AI will now make the winning move
+            [['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['', '', 'W', '', '', 'B', '', '']]);
+        //remove W
+        clickDivAndExpectPiece(2, 2, "");
         expectBoard(
-            [['X', 'O', 'O'],
-                ['X', 'O', ''],
-                ['O', 'X', 'X']]);
-        clickDivAndExpectPiece(1, 2, ""); // Can't make a move after game is over
+            [['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['', '', '', '', '', 'B', '', '']]);
+
     });
-    */
+
+    it('at phase 2, after we move a piece to nearby filled position,' +
+    ' we can not remove a piece if not 3 pieces on a line,', function () {
+        clickDivAndExpectPiece(0, 0, "W");
+        clickDivAndExpectPiece(0, 1, "B");
+        clickDivAndExpectPiece(0, 4, "W");
+        clickDivAndExpectPiece(0, 5, "B");
+        clickDivAndExpectPiece(0, 2, "W");
+        clickDivAndExpectPiece(0, 3, "B");
+        clickDivAndExpectPiece(0, 6, "W");
+        clickDivAndExpectPiece(0, 7, "B");
+        clickDivAndExpectPiece(1, 0, "W");
+        clickDivAndExpectPiece(1, 1, "B");
+        clickDivAndExpectPiece(1, 2, "W");
+        clickDivAndExpectPiece(1, 5, "B");
+        clickDivAndExpectPiece(1, 6, "W");
+        clickDivAndExpectPiece(1, 3, "B");
+        clickDivAndExpectPiece(1, 4, "W");
+        clickDivAndExpectPiece(1, 7, "B");
+        clickDivAndExpectPiece(2, 3, "W");
+        clickDivAndExpectPiece(2, 4, "B");
+        //phase 1 end
+        expectBoard(
+            [['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['', '', '', 'W', 'B', '', '', '']]);
+        //move W
+        clickDivAndExpectPiece(2, 3, "A");
+        clickDivAndExpectPiece(2, 2, "W");
+        expectBoard(
+            [['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['', '', 'W', '', 'B', '', '', '']]);
+        //try to move B, but would click
+        clickDivAndExpectPiece(2, 4, "C");
+        expectBoard(
+            [['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['W', 'B', 'W', 'B', 'W', 'B', 'W', 'B'],
+                ['', '', 'W', '', 'C', '', '', '']]);
+
+    });
+
 });
