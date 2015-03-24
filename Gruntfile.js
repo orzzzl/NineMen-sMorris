@@ -105,7 +105,7 @@ module.exports = function(grunt) {
         'dev': {
             // the server root directory
             root: '.',
-            port: 9001,
+            port: 9002,
             host: "0.0.0.0",
             cache: 1,
             showDir : true,

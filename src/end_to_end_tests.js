@@ -6,7 +6,7 @@ describe('NineMen-sMorris', function() {
     'use strict';
 
     beforeEach(function() {
-        browser.get('http://localhost:9001/game.min.html');
+        browser.get('http://localhost:9002/game.min.html');
     });
 
     function getDiv(row, col) {
@@ -27,13 +27,13 @@ describe('NineMen-sMorris', function() {
         if (pieceKind === "")
             picUrl = null;
         else if (pieceKind === "W")
-            picUrl = "http://localhost:9001/imgs/john.png";
+            picUrl = "http://localhost:9002/imgs/john.png";
         else if (pieceKind === "B")
-            picUrl = "http://localhost:9001/imgs/nick.png";
+            picUrl = "http://localhost:9002/imgs/nick.png";
         else if (pieceKind === "A")
-            picUrl = "http://localhost:9001/imgs/john_selected.png";
+            picUrl = "http://localhost:9002/imgs/john_selected.png";
         else if (pieceKind === "C")
-            picUrl = "http://localhost:9001/imgs/nick_selected.png";
+            picUrl = "http://localhost:9002/imgs/nick_selected.png";
 
         expect(getImg(row, col).isDisplayed()).toEqual(pieceKind === "" ? false : true);
         if (pieceKind !== "")
@@ -116,15 +116,31 @@ describe('NineMen-sMorris', function() {
         ['', 'W', '', 'W', 'W', '', 'B', ''],
         ['', '', '', '', '', '', '', '']
     ];
+
+    var board4 = [
+        ['', 'W', 'B', '', 'B', 'B', '', ''],
+        ['', 'W', '', 'W', 'W', '', '', ''],
+        ['', '', '', '', '', '', '', '']
+    ];
     var delta1 = {destination: [0, 5], origin: [0, 6]};
 
     var delta2 = {destination: [0, 1], origin: [0, 0]};
+
+    var delta3 = {destination: [1, 6], origin: [null, null]};
+
+    var delta4 = {destination: [0, 1], origin: [null, null]};
 
     var playerStates1 = [{phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []},
         {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}];
 
     var playerStates2 = [{phase: 2, count: 21, phaseLastTime: 2, alreadyMills: []},
         {phase: 2, count: 20, phaseLastTime: 2, alreadyMills: []}];
+
+    var playerStates3 = [{phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []},
+        {phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []}];
+
+    var playerStates3 = [{phase: 1, count: 4, phaseLastTime: 1, alreadyMills: []},
+        {phase: 1, count: 3, phaseLastTime: 1, alreadyMills: []}];
 
     var matchState2 = {
         turnIndexBeforeMove: 0,
@@ -133,9 +149,9 @@ describe('NineMen-sMorris', function() {
         lastMove: [{setTurn: {turnIndex: 1}},
             {set: {key: 'board', value: board2}},
             {set: {key: 'playerStates', value: playerStates2}},
-            {set: {key: 'delta', value: delta2}}],
+            {set: {key: 'delta', value: delta3}}],
         lastState: {board: board1, delta: delta1, playerStates: playerStates1},
-        currentState: {board: board2, delta: delta2, playerStates: playerStates2},
+        currentState: {board: board2, delta: delta3, playerStates: playerStates2},
         lastVisibleTo: {},
         currentVisibleTo: {}
     };
@@ -149,8 +165,27 @@ describe('NineMen-sMorris', function() {
         expectBoard(board3);
     });
 
-    
+    var matchState3 = {
+        turnIndexBeforeMove: 0,
+        turnIndex: 1,
+        endMatchScores: null,
+        lastMove: [{setTurn: {turnIndex: 1}},
+            {set: {key: 'board', value: board2}},
+            {set: {key: 'playerStates', value: playerStates3}},
+            {set: {key: 'delta', value: delta2}}],
+        lastState: {board: board4, delta: delta4, playerStates: playerStates4},
+        currentState: {board: board2, delta: delta2, playerStates: playerStates3},
+        lastVisibleTo: {},
+        currentVisibleTo: {}
+    };
 
+    it('To form a morris in phase 1', function () {
+        setMatchState(matchState3, 'passAndPlay');
+        expectBoard(board2);
+//        clickDivAndExpectPiece(0, 3, "C");
+//        clickDivAndExpectPiece(0, 4, "B");
+//        expectBoard(board3);
+    });
 
 /*
     it('should end game if X wins', function () {
