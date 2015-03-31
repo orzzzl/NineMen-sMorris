@@ -147,10 +147,11 @@ angular.module('myApp')
 
             $scope. shouldHighLight = function (row, col) {
                 var color = $scope.turnIndex === 0 ? 'W' : 'B';
-                var states = $scope.playerStates;
                 var turn = $scope.turnIndex;
                 var board = $scope.board;
-                var phase = states [turn].phase;
+                if ($scope.playerStates === undefined)
+                    return false;
+                var phase = $scope.playerStates [$scope.turnIndex].phase;
                 if (phase === 1)
                     return false;
                 if (phase === 2 || phase === 3) {
