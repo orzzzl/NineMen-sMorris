@@ -228,3 +228,29 @@
     height: 14%;
   
 }
+
+@keyframes white-blink {
+    50% {
+        filter: brightness(0.8);
+        -webkit-filter: brightness(0.8);
+    }
+}
+@-webkit-keyframes white-blink {
+    50% {
+        filter: brightness(0.8);
+        -webkit-filter: brightness(0.8);
+    }
+}
+
+@keyframes black-blink {
+    50% {
+        filter: brightness(1.6);
+        -webkit-filter: brightness(1.6);
+    }
+}
+@-webkit-keyframes black-blink {
+    50% {
+        filter: brightness(1.6);
+        -webkit-filter: brightness(1.6);
+    }
+}
