@@ -149,8 +149,8 @@ angular.module('myApp')
                 var color = $scope.turnIndex === 0 ? 'W' : 'B';
                 var turn = $scope.turnIndex;
                 var board = $scope.board;
-                if ($scope.playerStates === undefined)
-                    return false;
+//                if ($scope.playerStates === undefined)
+//                    return false;
                 var phase = $scope.playerStates [$scope.turnIndex].phase;
                 if (phase === 1)
                     return false;
