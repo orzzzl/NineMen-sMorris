@@ -179,16 +179,23 @@ angular.module('myApp')
                         : cell === "B" ? "imgs/nick_selected.png" : "";
             };
 
-            $scope.shouldSlowlyAppear = function (row, col) {
-                //return (row == $scope.clickx && col == $scope.clicky);
-                if ($scope.playerStates[$scope.turnIndex].phase !== 1)
-                    return false;
+            $scope.shouldEnLar = function (row, col) {
 
                 return !animationEnded &&
                     state.delta !== undefined &&
                     state.delta.destination[0] === row && state.delta.destination[1] === col;
 
             };
+
+            $scope.shouldFade = function (row, col) {
+
+                return !animationEnded &&
+                    state.delta !== undefined &&
+                    state.delta.origin[0] === row && state.delta.origin[1] === col;
+
+            };
+
+
 
             gameService.setGame({
                 gameDeveloperEmail: "zhuangzeleng19920731@gmail.com",
