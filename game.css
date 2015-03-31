@@ -4,6 +4,11 @@
     top: 5%;
     left: 4.9137931%;
     bottom: 5%;
+    -webkit-animation: slowlyAppear 0.5s linear;
+    -moz-animation: slowlyAppear 0.5s linear;
+    -ms-animation: slowlyAppear 0.5s linear;
+    -o-animation: slowlyAppear 0.5s linear;
+    animation: slowlyAppear 0.5s linear;
 }
 
 .piece {
@@ -16,8 +21,35 @@
 .select {
     animation: white-blink 1s infinite;
     -webkit-animation: white-blink 1s infinite;
+    -moz-animation: white-blink 1s infinite;
+    -o-animation: white-blink 1s infinite;
 }
 
+
+.slowlyAppear {
+    -webkit-animation: slowlyAppear 0.5s linear;
+    -moz-animation: slowlyAppear 0.5s linear;
+    -ms-animation: slowlyAppear 0.5s linear;
+    -o-animation: slowlyAppear 0.5s linear;
+    animation: slowlyAppear 0.5s linear;
+}
+
+@-webkit-keyframes slowlyAppear {
+    from {opacity: 0.1;}
+    to {opacity: 1;}
+}
+@-moz-keyframes slowlyAppear {
+    from {opacity: 0.1;}
+    to {opacity: 1;}
+}
+@-o-keyframes slowlyAppear {
+    from {opacity: 0.1;}
+    to {opacity: 1;}
+}
+@keyframes slowlyAppear {
+    from {opacity: 0.1;}
+    to {opacity: 1;}
+}
 
 
 .c0r0 {
@@ -249,15 +281,15 @@
     }
 }
 
-@keyframes black-blink {
+@-moz-keyframes white-blink {
     50% {
-        filter: brightness(1.6);
-        -webkit-filter: brightness(1.6);
+        filter: brightness(0.8);
+        -webkit-filter: brightness(0.8);
     }
 }
-@-webkit-keyframes black-blink {
+@-o-keyframes white-blink {
     50% {
-        filter: brightness(1.6);
-        -webkit-filter: brightness(1.6);
+        filter: brightness(0.8);
+        -webkit-filter: brightness(0.8);
     }
 }

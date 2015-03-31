@@ -14,6 +14,29 @@ angular.module('myApp')
 
             resizeGameAreaService.setWidthToHeight(.866525424);
 
+            var animationEnded = false;
+            var canMakeMove = false;
+            var isComputerTurn = false;
+            var state = null;
+            var turnIndex = null;
+
+
+            function animationEndedCallback() {
+                $rootScope.$apply(function () {
+                    $log.info("Animation ended");
+                    animationEnded = true;
+                    if (isComputerTurn) {
+                        sendComputerMove();
+                    }
+                });
+            }
+            // See http://www.sitepoint.com/css3-animation-javascript-event-handlers/
+            document.addEventListener("animationend", animationEndedCallback, false); // standard
+            document.addEventListener("webkitAnimationEnd", animationEndedCallback, false); // WebKit
+            document.addEventListener("oanimationend", animationEndedCallback, false); // Opera
+
+
+
             function sendComputerMove() {
                 /*
                 gameService.makeMove(aiService.createComputerMove($scope.board, $scope.turnIndex,
@@ -28,6 +51,8 @@ angular.module('myApp')
             }
 
             function updateUI(params) {
+                animationEnded = false;
+                state = params.stateAfterMove;
                 $scope.board = params.stateAfterMove.board;
                 $scope.delta = params.stateAfterMove.delta;
                 $scope.playerStates = params.stateAfterMove.playerStates;
@@ -50,13 +75,18 @@ angular.module('myApp')
                     $scope.isYourTurn = false; // to make sure the UI won't send another move.
                     // Waiting 0.5 seconds to let the move animation finish; if we call aiService
                     // then the animation is paused until the javascript finishes.
-                    $timeout(sendComputerMove, 500);
+                    $timeout(sendComputerMove, 1000);
                 }
             }
 
             window.e2e_test_stateService = stateService; // to allow us to load any state in our e2e tests.
 
             $scope.cellClicked = function (row, col) {
+
+
+                $scope.clickx = row;
+                $scope.clicky = col;
+
 
                 var color = $scope.turnIndex === 0 ? 'W' : 'B';
 
@@ -121,17 +151,17 @@ angular.module('myApp')
                 var turn = $scope.turnIndex;
                 var board = $scope.board;
                 var phase = states [turn].phase;
-                if (phase == 1)
+                if (phase === 1)
                     return false;
-                if (phase == 2 || phase == 3) {
-                    if (board [row][col] == color)
+                if (phase === 2 || phase === 3) {
+                    if (board [row][col] === color)
                         return true;
                     else
                         return false;
                 }
-                if (phase == 4) {
+                if (phase === 4) {
                     var oppcolor = turn === 1 ? 'W' : 'B';
-                    if (board [row][col] == oppcolor)
+                    if (board [row][col] === oppcolor)
                         return true;
                     else
                         return false;
@@ -148,9 +178,16 @@ angular.module('myApp')
                     return cell === "W" ? "imgs/john_selected.png"
                         : cell === "B" ? "imgs/nick_selected.png" : "";
             };
+
             $scope.shouldSlowlyAppear = function (row, col) {
-                return $scope.delta !== undefined &&
-                    $scope.delta.row === row && $scope.delta.col === col;
+                //return (row == $scope.clickx && col == $scope.clicky);
+                if ($scope.playerStates[$scope.turnIndex].phase !== 1)
+                    return false;
+
+                return !animationEnded &&
+                    state.delta !== undefined &&
+                    state.delta.destination[0] === row && state.delta.destination[1] === col;
+
             };
 
             gameService.setGame({
