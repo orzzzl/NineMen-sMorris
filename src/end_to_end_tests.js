@@ -27,13 +27,13 @@ describe('NineMen-sMorris', function() {
         if (pieceKind === "")
             picUrl = null;
         else if (pieceKind === "W")
-            picUrl = "http://localhost:9002/imgs/john.png";
+            picUrl = "http://localhost:9002/imgs/white.png";
         else if (pieceKind === "B")
-            picUrl = "http://localhost:9002/imgs/nick.png";
+            picUrl = "http://localhost:9002/imgs/black.png";
         else if (pieceKind === "A")
-            picUrl = "http://localhost:9002/imgs/john_selected.png";
+            picUrl = "http://localhost:9002/imgs/white_select.png";
         else if (pieceKind === "C")
-            picUrl = "http://localhost:9002/imgs/nick_selected.png";
+            picUrl = "http://localhost:9002/imgs/black_select.png";
 
         expect(getImg(row, col).isDisplayed()).toEqual(pieceKind === "" ? false : true);
         if (pieceKind !== "")

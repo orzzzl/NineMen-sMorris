@@ -82,6 +82,7 @@ module.exports = function(grunt) {
         options: {
           basePath: '.',
           cache: [
+            'http://yoav-zibin.github.io/emulator/examples/drag_n_drop/dragAndDropListeners.js',
             'http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular.min.js',
             'http://yoav-zibin.github.io/emulator/dist/gameServices.min.js',
             'http://yoav-zibin.github.io/emulator/angular-translate/angular-translate.2.6.1.min.js',

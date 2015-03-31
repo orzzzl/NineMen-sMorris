@@ -117,8 +117,8 @@ angular.module('myApp')
                 var cell = $scope.board[row][col];
 
                 if (!$scope.waitPiece || !(row === $scope.lastPlacement.c && col === $scope.lastPlacement.r))
-                    return cell === "W" ? "imgs/john.png"
-                        : cell === "B" ? "imgs/nick.png" : "";
+                    return cell === "W" ? "imgs/white.png"
+                        : cell === "B" ? "imgs/black.png" : "";
                 else
                     return cell === "W" ? "imgs/john_selected.png"
                         : cell === "B" ? "imgs/nick_selected.png" : "";
