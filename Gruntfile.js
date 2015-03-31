@@ -7,25 +7,6 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
       options: {
-        curly: true,
-        eqeqeq: true,
-        eqnull: true,
-        browser: true,
-        strict: true,
-        undef: true,
-        unused: true,
-        bitwise: true,
-        forin: true,
-        freeze: true,
-        latedef: true,
-        noarg: true,
-        nocomma: true,
-        nonbsp: true,
-        nonew: true,
-        notypeof: true,
-        singleGroups: true,
-        jasmine: true,
-        jquery: true,
         globals: {
           module: false, // for Gruntfile.js
           exports: false, // for protractor.conf.js
@@ -90,8 +71,8 @@ module.exports = function(grunt) {
             'http://yoav-zibin.github.io/emulator/main.css',
             'dist/everything.min.js',
             'game.css',
-            'imgs/john.png',
-            'imgs/nick.png',
+            'imgs/white.png',
+            'imgs/black.png',
             'imgs/john_selected.png',
             'imgs/nick_selected.png',
           ],

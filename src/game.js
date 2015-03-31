@@ -113,6 +113,31 @@ angular.module('myApp')
                 var cell = $scope.board[row][col];
                 return cell !== "";
             };
+
+
+            $scope. shouldHighLight = function (row, col) {
+                var color = $scope.turnIndex === 0 ? 'W' : 'B';
+                var states = $scope.playerStates;
+                var turn = $scope.turnIndex;
+                var board = $scope.board;
+                var phase = states [turn].phase;
+                if (phase == 1)
+                    return false;
+                if (phase == 2 || phase == 3) {
+                    if (board [row][col] == color)
+                        return true;
+                    else
+                        return false;
+                }
+                if (phase == 4) {
+                    var oppcolor = turn === 1 ? 'W' : 'B';
+                    if (board [row][col] == oppcolor)
+                        return true;
+                    else
+                        return false;
+                }
+            };
+
             $scope.getImageSrc = function (row, col) {
                 var cell = $scope.board[row][col];
 

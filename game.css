@@ -13,13 +13,20 @@
     left: 20%;
 }
 
+.select {
+    animation: white-blink 1s infinite;
+    -webkit-animation: white-blink 1s infinite;
+}
+
+
+
 .c0r0 {
     position: absolute;
     top: -3.5%;
     left: -3.5%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c0r1 {
@@ -28,7 +35,7 @@
     left: 43%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c0r2 {
@@ -37,7 +44,7 @@
     left: 89%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c0r3 {
@@ -46,7 +53,7 @@
     left: 89%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c0r4 {
@@ -55,7 +62,7 @@
     left: 89%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c0r5 {
@@ -64,7 +71,7 @@
     left: 43%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c0r6 {
@@ -73,7 +80,7 @@
     left: -3.5%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c0r7 {
@@ -82,7 +89,7 @@
     left: -3.5%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r0 {
@@ -91,7 +98,7 @@
     left: 12%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r1 {
@@ -100,7 +107,7 @@
     left: 43%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r2 {
@@ -109,7 +116,7 @@
     left: 74%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r3 {
@@ -118,7 +125,7 @@
     left: 74%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r4 {
@@ -127,7 +134,7 @@
     left: 74%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r5 {
@@ -136,7 +143,7 @@
     left: 43%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r6 {
@@ -145,7 +152,7 @@
     left: 12%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c1r7 {
@@ -154,7 +161,7 @@
     left: 12%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r0 {
@@ -163,7 +170,7 @@
     left: 28%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r1 {
@@ -172,7 +179,7 @@
     left: 43%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r2 {
@@ -181,7 +188,7 @@
     left: 58%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r3 {
@@ -190,7 +197,7 @@
     left: 58%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r4 {
@@ -199,7 +206,7 @@
     left: 58%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r5 {
@@ -208,7 +215,7 @@
     left: 43%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r6 {
@@ -217,7 +224,7 @@
     left: 28%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 .c2r7 {
@@ -226,7 +233,7 @@
     left: 28%;
     width: 14%;
     height: 14%;
-  
+
 }
 
 @keyframes white-blink {
