@@ -43,7 +43,7 @@ angular.module('myApp')
                 var y = clientY - gameArea.offsetTop;
                 // Is outside gameArea?
                 if (x < 0 || y < 0 || x >= gameArea.clientWidth || y >= gameArea.clientHeight) {
-                    draggingLines.style.display = "none";
+                  //  draggingLines.style.display = "none";
                     if (draggingPiece) {
                         // Drag the piece where the touch is (without snapping to a square).
                         var size = getSquareWidthHeight();
@@ -147,7 +147,7 @@ angular.module('myApp')
                     // drag ended
                     // return the piece to it's original style (then angular will take care to hide it).
                     setDraggingPieceTopLeft(getSquareTopLeft(rowtmp, coltmp));
-                    draggingLines.style.display = "none";
+                 //   draggingLines.style.display = "none";
                     draggingStartedRowCol = null;
                     draggingPiece = null;
                 }
