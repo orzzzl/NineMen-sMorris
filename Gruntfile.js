@@ -5,19 +5,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    jshint: {
-      options: {
-        globals: {
-          module: false, // for Gruntfile.js
-          exports: false, // for protractor.conf.js
-          inject: false, // testing angular
-          angular: false,
-          console: false,
-          browser: false, element: false, by: false, // Protractor
-        },
-      },
-      all: ['Gruntfile.js', 'karma.conf.js', 'protractor.conf.js', 'src/*.js', 'languages/*.js']
-    },
     karma: {
       unit: {
         configFile: 'karma.conf.js',
@@ -111,20 +98,21 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-karma');
+//  grunt.loadNpmTasks('grunt-contrib-watch');
+//  grunt.loadNpmTasks('grunt-contrib-jshint');
+//  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-processhtml');
   grunt.loadNpmTasks('grunt-manifest');
-  grunt.loadNpmTasks('grunt-http-server');
-  grunt.loadNpmTasks('grunt-protractor-runner');
+//  grunt.loadNpmTasks('grunt-http-server');
+//  grunt.loadNpmTasks('grunt-protractor-runner');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'karma',
+  grunt.registerTask('default', [//'karma',
       'concat', 'uglify',
-      'processhtml', 'manifest',
-      'http-server', 'protractor']);
+      'processhtml', 'manifest'//,
+      //'http-server', 'protractor'
+      ]);
 
 };

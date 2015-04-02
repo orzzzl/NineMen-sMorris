@@ -561,6 +561,7 @@ angular.module('myApp')
             var rowsNum = 7;
             var colsNum = 7;
             var draggingStartedRowCol = null; // The {row: YY, col: XX} where dragging started.
+            var draggingStartRaw = null;
             var draggingPiece = null;
             var nextZIndex = 61;
             window.handleDragEvent = handleDragEvent;
@@ -569,8 +570,6 @@ angular.module('myApp')
 
             function handleDragEvent(type, clientX, clientY) {
                 // Center point in gameArea
-                //llvar myx = gamaArea.offsetLeft * 0.1;
-               // var myy = gameArea.offsetTop * 0.1;
 
                 var x = clientX - gameArea.offsetLeft;
                 var y = clientY - gameArea.offsetTop;
@@ -644,6 +643,7 @@ angular.module('myApp')
                     if (type === "touchstart" && !draggingStartedRowCol) {
                         // drag started
                         if ($scope.board[row][col]) {
+                            draggingStartRaw = {roww: rowtmp, col: coltmp};
                             draggingStartedRowCol = {row: row, col: col};
                             draggingPiece = document.getElementById("e2e_test_img_" + draggingStartedRowCol.row + "x" + draggingStartedRowCol.col);
                             draggingPiece.style['z-index'] = ++nextZIndex;
@@ -662,7 +662,8 @@ angular.module('myApp')
                         // Drag continue
                         console.log (gameArea.clientWidth);
                         var size = getSquareWidthHeight();
-                        setDraggingPieceTopLeft({top: y - size.height / 2, left: x - size.width / 2 - 1/3 * (gameArea.clientWidth)});
+                        console.log ("size.width: " + size.width/2 + "size.height" + size.height/2 + "x" + x + "y" + y);
+                        setDraggingPieceTopLeft({top: y - size.height / 2, left: x - size.width / 2});
                         /*
                         setDraggingPieceTopLeft(getSquareTopLeft(row, col));
                         draggingLines.style.display = "inline";
@@ -677,14 +678,14 @@ angular.module('myApp')
                 if (type === "touchend" || type === "touchcancel" || type === "touchleave") {
                     // drag ended
                     // return the piece to it's original style (then angular will take care to hide it).
-                    setDraggingPieceTopLeft(getSquareTopLeft(draggingStartedRowCol.row, draggingStartedRowCol.col));
+                    setDraggingPieceTopLeft(getSquareTopLeft(rowtmp, coltmp));
                     draggingLines.style.display = "none";
                     draggingStartedRowCol = null;
                     draggingPiece = null;
                 }
             }
             function setDraggingPieceTopLeft(topLeft) {
-                var originalSize = getSquareTopLeft(draggingStartedRowCol.row, draggingStartedRowCol.col);
+                var originalSize = getSquareTopLeft(draggingStartRaw.roww, draggingStartRaw.col);
                 draggingPiece.style.left = (topLeft.left - originalSize.left + gameArea.clientWidth * 0.03) + "px";
                 draggingPiece.style.top = (topLeft.top - originalSize.top + gameArea.clientHeight * 0.03) + "px";
             }
