@@ -570,7 +570,9 @@ angular.module('myApp')
 
             function handleDragEvent(type, clientX, clientY) {
                 // Center point in gameArea
-
+                var phase = $scope.playerStates[$scope.turnIndex].phase;
+                if (phase === 4 || phase === 1)
+                    return;
                 var x = clientX - gameArea.offsetLeft;
                 var y = clientY - gameArea.offsetTop;
                 // Is outside gameArea?
@@ -656,8 +658,9 @@ angular.module('myApp')
                     if (type === "touchend") {
                         var from = draggingStartedRowCol;
                         var to = {row: row, col: col};
-
-                        dragDone(from, to);
+                        var phase = $scope.playerStates[$scope.turnIndex].phase;
+                        if (phase === 2 || phase === 3)
+                            dragDone(from, to);
                     } else {
                         // Drag continue
                         console.log (gameArea.clientWidth);
@@ -678,8 +681,16 @@ angular.module('myApp')
                 if (type === "touchend" || type === "touchcancel" || type === "touchleave") {
                     // drag ended
                     // return the piece to it's original style (then angular will take care to hide it).
-                    setDraggingPieceTopLeft(getSquareTopLeft(rowtmp, coltmp));
+                    var tmp = getSquareTopLeft(rowtmp, coltmp);
+                    console.log ("^^^^^^");
+                    console.log (tmp);
+                    console.log ("rowtmp" + rowtmp + "coltmp" + coltmp);
+                    setDraggingPieceTopLeft(tmp);
                  //   draggingLines.style.display = "none";
+                    if (draggingPiece !== null) {
+                        draggingPiece.removeAttribute("style");//fix broken UI
+                        draggingPiece = null;
+                    }
                     draggingStartedRowCol = null;
                     draggingPiece = null;
                 }
@@ -710,8 +721,6 @@ angular.module('myApp')
             function dragDone(from, to) {
 
                 $rootScope.$apply(function () {
-                    $scope.clickx = from.row;
-                    $scope.clicky = from.col;
 
 
                     console.log (from);
@@ -746,9 +755,10 @@ angular.module('myApp')
                         if (phase === 2 || phase === 3) {
                             var move = gameLogic.createMove($scope.board, $scope.playerStates, to.row, to.col, from.row, from.col, $scope.turnIndex);
                             gameService.makeMove(move);
+                            console.log (draggingPiece);
                         }
                     } catch (e) {
-                        $log.info(["Cell is already full in position:", from.row, from.col]);
+                        $log.info(["Can't move piece:", from.row, from.col]);
                         return;
                     }
 
@@ -851,12 +861,11 @@ angular.module('myApp')
 
             $scope.cellClicked = function (row, col) {
 
+                var phase = $scope.playerStates[$scope.turnIndex].phase;
+                if (phase === 2 || phase === 3)
+                    return;
 
-                $scope.clickx = row;
-                $scope.clicky = col;
-
-
-                var color = $scope.turnIndex === 0 ? 'W' : 'B';
+                //var color = $scope.turnIndex === 0 ? 'W' : 'B';
 
                 $log.info(["Clicked on cell:", row, col]);
                 if (window.location.search === '?throwException') { // to test encoding a stack trace with sourcemap
@@ -865,21 +874,12 @@ angular.module('myApp')
                 if (!$scope.isYourTurn) {
                     return;
                 }
-                if ($scope.waitPiece === undefined) {
-                    $scope.waitPiece = false;
-                }
-                if ($scope.lastPlacement === undefined) {
-                    $scope.lastPlacement = {};
-                }
 
                 try {
-                    var phase = $scope.playerStates[$scope.turnIndex].phase;
 
                     if (phase === 1) {
-                        $scope.waitPiece = false;
                         var move = gameLogic.createMove($scope.board, $scope.playerStates, row, col, null, null, $scope.turnIndex);
                     } else if (phase === 4) {
-                        $scope.waitPiece = false;
                         var move = gameLogic.createMove($scope.board, $scope.playerStates, null, null, row, col, $scope.turnIndex);
                     }
                     /*
@@ -912,6 +912,7 @@ angular.module('myApp')
             };
             $scope.shouldShowImage = function (row, col) {
                 var cell = $scope.board[row][col];
+//                console.log (row + "***" + col+ "***" + cell);
                 return cell !== "";
             };
 
@@ -948,9 +949,12 @@ angular.module('myApp')
 
             $scope.shouldEnLar = function (row, col) {
 
-                return !animationEnded &&
+                var ss = !animationEnded &&
                     state.delta !== undefined &&
                     state.delta.destination[0] === row && state.delta.destination[1] === col;
+                if (ss)
+                    console.log(row + "&&&&" + col);
+                return ss;
 
             };
 
