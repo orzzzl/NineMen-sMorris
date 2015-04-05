@@ -37,6 +37,9 @@ angular.module('myApp')
             var coltmp;
 
             function handleDragEvent(type, clientX, clientY) {
+
+                if ($scope.playerStates === undefined || $scope.turnIndex === -1)
+                    return;
                 // Center point in gameArea
                 var phase = $scope.playerStates[$scope.turnIndex].phase;
                 var x = clientX - gameArea.offsetLeft;
@@ -227,7 +230,7 @@ angular.module('myApp')
 
                 });
             }
-            
+
 
 
 
@@ -303,6 +306,8 @@ angular.module('myApp')
 
 
             $scope. shouldHighLight = function (row, col) {
+                if ($scope.playerStates === undefined || $scope.turnIndex === -1)
+                    return false;
                 var color = $scope.turnIndex === 0 ? 'W' : 'B';
                 var turn = $scope.turnIndex;
                 var board = $scope.board;
