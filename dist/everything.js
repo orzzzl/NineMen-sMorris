@@ -564,7 +564,7 @@ angular.module('myApp')
             var draggingStartRaw = null;
             var draggingPiece = null;
             var nextZIndex = 61;
-            window.handleDragEvent = handleDragEvent;
+//            window.handleDragEvent = handleDragEvent;
             var rowtmp;
             var coltmp;
 
