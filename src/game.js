@@ -39,8 +39,6 @@ angular.module('myApp')
             function handleDragEvent(type, clientX, clientY) {
                 // Center point in gameArea
                 var phase = $scope.playerStates[$scope.turnIndex].phase;
-//                if (phase === 4 || phase === 1)
-//                    return;
                 var x = clientX - gameArea.offsetLeft;
                 var y = clientY - gameArea.offsetTop;
                 // Is outside gameArea?
@@ -143,7 +141,7 @@ angular.module('myApp')
                         if (!draggingPiece) {
                             return;
                         }
-                    
+
 
                     if (type === "touchend") {
                         var from = draggingStartedRowCol;
@@ -157,15 +155,6 @@ angular.module('myApp')
                         var size = getSquareWidthHeight();
                         console.log ("size.width: " + size.width/2 + "size.height" + size.height/2 + "x" + x + "y" + y);
                         setDraggingPieceTopLeft({top: y - size.height / 2, left: x - size.width / 2});
-                        /*
-                        setDraggingPieceTopLeft(getSquareTopLeft(row, col));
-                        draggingLines.style.display = "inline";
-                        var centerXY = getSquareCenterXY(row, col);
-                        verticalDraggingLine.setAttribute("x1", centerXY.x);
-                        verticalDraggingLine.setAttribute("x2", centerXY.x);
-                        horizontalDraggingLine.setAttribute("y1", centerXY.y);
-                        horizontalDraggingLine.setAttribute("y2", centerXY.y);
-                        */
                     }
                 }
                 if (type === "touchend" || type === "touchcancel" || type === "touchleave") {
@@ -200,13 +189,7 @@ angular.module('myApp')
                 var size = getSquareWidthHeight();
                 return {top: row * size.height, left: col * size.width}
             }
-            function getSquareCenterXY(row, col) {
-                var size = getSquareWidthHeight();
-                return {
-                    x: col * size.width + size.width / 2,
-                    y: row * size.height + size.height / 2
-                };
-            }
+
 
             function dragDone(from, to) {
 
@@ -215,8 +198,6 @@ angular.module('myApp')
 
                     console.log (from);
                     console.log (to);
-
-                    var color = $scope.turnIndex === 0 ? 'W' : 'B';
 
                     $log.info(["Clicked on cell:", from.row, from.col]);
                     if (window.location.search === '?throwException') { // to test encoding a stack trace with sourcemap
@@ -234,14 +215,6 @@ angular.module('myApp')
 
                     try {
                         var phase = $scope.playerStates[$scope.turnIndex].phase;
-/*
-                        if (phase === 1) {
-                            $scope.waitPiece = false;
-                            var move = gameLogic.createMove($scope.board, $scope.playerStates, row, col, null, null, $scope.turnIndex);
-                        } else if (phase === 4) {
-                            $scope.waitPiece = false;
-                            var move = gameLogic.createMove($scope.board, $scope.playerStates, null, null, row, col, $scope.turnIndex);
-                        } else {*/
                         if (phase === 2 || phase === 3) {
                             var move = gameLogic.createMove($scope.board, $scope.playerStates, to.row, to.col, from.row, from.col, $scope.turnIndex);
                             gameService.makeMove(move);
@@ -254,35 +227,7 @@ angular.module('myApp')
 
                 });
             }
-
-            /*
-            function isWhiteSquare(row, col) {
-                return ((row+col)%2)==0;
-            }
-            function getIntegersTill(number) {
-                var res = [];
-                for (var i = 0; i < number; i++) {
-                    res.push(i);
-                }
-                return res;
-            }
-
-            $scope.rows = getIntegersTill(rowsNum);
-            $scope.cols = getIntegersTill(colsNum);
-            $scope.rowsNum = rowsNum;
-            $scope.colsNum = colsNum;
-            $scope.getSquareClass = function (row, col) {
-                var isBlack = !isWhiteSquare(row,col);
-                return {
-                    whiteSquare: !isBlack,
-                    blackSquare: isBlack
-                };
-            };
-       //     $scope.isPieceShown = function (row, col) {
-       //         return $scope.board[row][col] === "W";
-       //     }; */
-
-
+            
 
 
 
@@ -349,57 +294,7 @@ angular.module('myApp')
 
             window.e2e_test_stateService = stateService; // to allow us to load any state in our e2e tests.
 
-            $scope.cellClicked = function (row, col) {
-                return;
-                var phase = $scope.playerStates[$scope.turnIndex].phase;
-                if (phase === 2 || phase === 3)
-                    return;
 
-                //var color = $scope.turnIndex === 0 ? 'W' : 'B';
-
-                $log.info(["Clicked on cell:", row, col]);
-                if (window.location.search === '?throwException') { // to test encoding a stack trace with sourcemap
-                    throw new Error("Throwing the error because URL has '?throwException'");
-                }
-                if (!$scope.isYourTurn) {
-                    return;
-                }
-
-                try {
-
-                    if (phase === 1) {
-                        var move = gameLogic.createMove($scope.board, $scope.playerStates, row, col, null, null, $scope.turnIndex);
-                    } else if (phase === 4) {
-                        var move = gameLogic.createMove($scope.board, $scope.playerStates, null, null, row, col, $scope.turnIndex);
-                    }
-                    /*
-                    else {
-                        if (!$scope.waitPiece || ($scope.waitPiece && $scope.board [row][col] === color &&
-                                                 ($scope.playerStates[$scope.turnIndex].phase === 2 ||
-                                                  $scope.playerStates[$scope.turnIndex].phase === 3 ) )) {
-                            $scope.waitPiece = true;
-                            $scope.lastPlacement = {c: row, r: col};
-                        } else {
-                            $scope.waitPiece = false;
-                            var move = gameLogic.createMove($scope.board, $scope.playerStates, row, col,
-                                $scope.lastPlacement.c, $scope.lastPlacement.r, $scope.turnIndex);
-                        }
-                    }
-                    if (!$scope.waitPiece) {
-                    */
-                        if (move[2].set.value[$scope.turnIndex].phase !== 4) {
-                            $scope.isYourTurn = false; // to prevent making another move
-                        } else {
-                            $scope.isYourTurn = true;
-                        }
-
-                        gameService.makeMove(move);
-                    //}
-                } catch (e) {
-                    $log.info(["Cell is already full in position:", row, col]);
-                    return;
-                }
-            };
             $scope.shouldShowImage = function (row, col) {
                 var cell = $scope.board[row][col];
 //                console.log (row + "***" + col+ "***" + cell);
