@@ -571,8 +571,8 @@ angular.module('myApp')
             function handleDragEvent(type, clientX, clientY) {
                 // Center point in gameArea
                 var phase = $scope.playerStates[$scope.turnIndex].phase;
-                if (phase === 4 || phase === 1)
-                    return;
+//                if (phase === 4 || phase === 1)
+//                    return;
                 var x = clientX - gameArea.offsetLeft;
                 var y = clientY - gameArea.offsetTop;
                 // Is outside gameArea?
@@ -644,16 +644,38 @@ angular.module('myApp')
 
                     if (type === "touchstart" && !draggingStartedRowCol) {
                         // drag started
-                        if ($scope.board[row][col]) {
+                        if ($scope.board[row][col] && (phase === 2 || phase === 3)) {
                             draggingStartRaw = {roww: rowtmp, col: coltmp};
                             draggingStartedRowCol = {row: row, col: col};
                             draggingPiece = document.getElementById("e2e_test_img_" + draggingStartedRowCol.row + "x" + draggingStartedRowCol.col);
                             draggingPiece.style['z-index'] = ++nextZIndex;
                         }
+                        if (phase === 4 || phase === 1) {
+                            $rootScope.$apply(function () {
+                                if (!$scope.isYourTurn) {
+                                    return;
+                                }
+                                try {
+
+                                    var phase = $scope.playerStates[$scope.turnIndex].phase;
+                                    if (phase === 1) {
+                                        var move = gameLogic.createMove($scope.board, $scope.playerStates, row, col, null, null, $scope.turnIndex);
+                                    } else if (phase === 4) {
+                                        var move = gameLogic.createMove($scope.board, $scope.playerStates, null, null, row, col, $scope.turnIndex);
+                                    }
+                                    gameService.makeMove(move);
+//                                }
+                                } catch (e) {
+                                    $log.info(["Can't place piece:", row]);
+                                    return;
+                                }
+                            });
+                        }
                     }
-                    if (!draggingPiece) {
-                        return;
-                    }
+                        if (!draggingPiece) {
+                            return;
+                        }
+                    
 
                     if (type === "touchend") {
                         var from = draggingStartedRowCol;
@@ -860,7 +882,7 @@ angular.module('myApp')
             window.e2e_test_stateService = stateService; // to allow us to load any state in our e2e tests.
 
             $scope.cellClicked = function (row, col) {
-
+                return;
                 var phase = $scope.playerStates[$scope.turnIndex].phase;
                 if (phase === 2 || phase === 3)
                     return;
