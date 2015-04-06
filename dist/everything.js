@@ -939,12 +939,12 @@ function(alphaBetaService, gameLogic) {
                 : 0;
         }
         if (move[2].set.value [0].phase === 4) {
-            return 10000;
+            return Number.POSITIVE_INFINITY;
         }
         if (move[2].set.value [1].phase === 4) {
-            return -10000;
+            return Number.NEGATIVE_INFINITY;
         }
-        return (move[2].set.value [0].alreadyMills.length * 100 - move[2].set.value [1].alreadyMills.length * 100);
+        return (move[2].set.value [0].alreadyMills.length * 1000 - move[2].set.value [1].alreadyMills.length * 1000);
     }
 
 
