@@ -28,7 +28,13 @@ function(alphaBetaService, gameLogic) {
                 : endMatchScores[0] < endMatchScores[1] ? Number.NEGATIVE_INFINITY
                 : 0;
         }
-        return 0;
+        if (move[2].set.value [0].phase === 4) {
+            return 10000;
+        }
+        if (move[2].set.value [1].phase === 4) {
+            return -10000;
+        }
+        return (move[2].set.value [0].alreadyMills.length * 100 - move[2].set.value [1].alreadyMills.length * 100);
     }
 
 
