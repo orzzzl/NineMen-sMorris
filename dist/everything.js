@@ -784,20 +784,6 @@ angular.module('myApp')
             document.addEventListener("oanimationend", animationEndedCallback, false); // Opera
 
 
-/*
-            function sendComputerMove() {
-
-                gameService.makeMove(aiService.createComputerMove($scope.board, $scope.turnIndex,
-                    // at most 1 second for the AI to choose a move (but might be much quicker)
-                var move = gameLogic.createMove($scope.board, $scope.playerStates, Math.floor(Math.random()*3),
-                    Math.floor(Math.random()*8), null, null, $scope.turnIndex);
-                gameService.makeMove (move);
-                    {millisecondsLimit: 1000}));
-
-                var possibleMoves = gameLogic.getAllPossibleMove($scope.board, $scope.playerStates, $scope.turnIndex);
-                gameService.makeMove(possibleMoves[Math.floor(Math.random()*possibleMoves.length)]);
-            }
-*/
 
             function sendComputerMove() {
                 gameService.makeMove(
@@ -939,12 +925,12 @@ function(alphaBetaService, gameLogic) {
                 : 0;
         }
         if (move[2].set.value [0].phase === 4) {
-            return Number.POSITIVE_INFINITY;
+            return Number.POSITIVE_INFINITY / 2;
         }
         if (move[2].set.value [1].phase === 4) {
-            return Number.NEGATIVE_INFINITY;
+            return Number.NEGATIVE_INFINITY / 2;
         }
-        return (move[2].set.value [0].alreadyMills.length * 1000 - move[2].set.value [1].alreadyMills.length * 1000);
+        return (move[2].set.value [0].alreadyMills.length * 1000000000000 - move[2].set.value [1].alreadyMills.length * 1000000000000);
     }
 
 

@@ -29,12 +29,12 @@ function(alphaBetaService, gameLogic) {
                 : 0;
         }
         if (move[2].set.value [0].phase === 4) {
-            return Number.POSITIVE_INFINITY;
+            return Number.POSITIVE_INFINITY / 2;
         }
         if (move[2].set.value [1].phase === 4) {
-            return Number.NEGATIVE_INFINITY;
+            return Number.NEGATIVE_INFINITY / 2;
         }
-        return (move[2].set.value [0].alreadyMills.length * 1000 - move[2].set.value [1].alreadyMills.length * 1000);
+        return (move[2].set.value [0].alreadyMills.length * 1000000000000 - move[2].set.value [1].alreadyMills.length * 1000000000000);
     }
 
 
