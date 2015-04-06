@@ -321,7 +321,9 @@ angular.module ('myApp', []).factory('gameLogic', function () {
         var tmpPhase = playerStates [turnIndexBeforeMove].phase;
         var obj = isMills (board, playerStates[turnIndexBeforeMove].alreadyMills, color);
         var tmp = angular.copy(playerStates[turnIndexBeforeMove].alreadyMills);
+        var tmpopp = angular.copy(playerStates[1-turnIndexBeforeMove].alreadyMills);
         var check = checkMills(board, playerStates, turnIndexBeforeMove);
+        var checkopp = checkMills(board, playerStates, 1 - turnIndexBeforeMove);
         var ret = angular.copy(playerStates);
 
         if (tmpPhase !== 4) {
@@ -335,6 +337,9 @@ angular.module ('myApp', []).factory('gameLogic', function () {
         if (check !== -1)
             tmp.splice (check, 1);
 
+        if (checkopp !== -1)
+            tmpopp.splice (checkopp, 1);
+
         if (obj.player === color)
             tmp.push (obj.mills);
 
@@ -346,6 +351,7 @@ angular.module ('myApp', []).factory('gameLogic', function () {
         ret [turnIndexBeforeMove].phase = phaseToSet;
         ret [turnIndexBeforeMove].phaseLastTime = tmpPhase;
         ret [turnIndexBeforeMove].alreadyMills = tmp;
+        ret [1 - turnIndexBeforeMove].alreadyMills = tmpopp;
         return ret;
     }
 
