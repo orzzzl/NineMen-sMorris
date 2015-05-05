@@ -4,10 +4,10 @@
 
 angular.module('myApp')
     .controller('Ctrl',
-    ['$scope', '$log', '$timeout', '$rootScope',
-        'gameService', 'stateService', 'gameLogic', 'aiService', 'resizeGameAreaService',
-        function ($scope, $log, $timeout, $rootScope,
-                  gameService, stateService, gameLogic, aiService, resizeGameAreaService) {
+    ['$scope', '$log', '$timeout', '$rootScope','$translate',
+        'gameService', 'stateService', 'gameLogic', 'aiService', 'resizeGameAreaService', 'dragAndDropService',
+        function ($scope, $log, $timeout, $rootScope,$translate,
+                  gameService, stateService, gameLogic, aiService, resizeGameAreaService, dragAndDropService) {
 
             'use strict';
 
@@ -32,7 +32,7 @@ angular.module('myApp')
             var draggingStartRaw = null;
             var draggingPiece = null;
             var nextZIndex = 61;
-            window.handleDragEvent = handleDragEvent;
+            dragAndDropService.addDragListener("gameArea", handleDragEvent);
             var rowtmp;
             var coltmp;
 

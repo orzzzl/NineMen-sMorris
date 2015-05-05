@@ -7,7 +7,7 @@
 
 'use strict';
 
-angular.module ('myApp', []).factory('gameLogic', function () {
+angular.module ('myApp', ['ngTouch', 'ui.bootstrap']).factory('gameLogic', function () {
     /**
      * Get initial board for the game.
      *    (0,0)----------------(0,1)----------------(0,2)
@@ -542,10 +542,10 @@ angular.module ('myApp', []).factory('gameLogic', function () {
 
 angular.module('myApp')
     .controller('Ctrl',
-    ['$scope', '$log', '$timeout', '$rootScope',
-        'gameService', 'stateService', 'gameLogic', 'aiService', 'resizeGameAreaService',
-        function ($scope, $log, $timeout, $rootScope,
-                  gameService, stateService, gameLogic, aiService, resizeGameAreaService) {
+    ['$scope', '$log', '$timeout', '$rootScope','$translate',
+        'gameService', 'stateService', 'gameLogic', 'aiService', 'resizeGameAreaService', 'dragAndDropService',
+        function ($scope, $log, $timeout, $rootScope,$translate,
+                  gameService, stateService, gameLogic, aiService, resizeGameAreaService, dragAndDropService) {
 
             'use strict';
 
@@ -570,7 +570,7 @@ angular.module('myApp')
             var draggingStartRaw = null;
             var draggingPiece = null;
             var nextZIndex = 61;
-            window.handleDragEvent = handleDragEvent;
+            dragAndDropService.addDragListener("gameArea", handleDragEvent);
             var rowtmp;
             var coltmp;
 
