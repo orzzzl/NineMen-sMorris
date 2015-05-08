@@ -338,8 +338,7 @@ angular.module('myApp')
                 var ss = !animationEnded &&
                     state.delta !== undefined &&
                     state.delta.destination[0] === row && state.delta.destination[1] === col;
-                if (ss)
-                    console.log(row + "&&&&" + col);
+                    
                 return ss;
 
             };
