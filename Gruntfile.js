@@ -64,7 +64,9 @@ module.exports = function(grunt) {
             'game.css',
             'imgs/NNM_board.png',
             'imgs/white.png',
-            'imgs/black.png'
+            'imgs/black.png',
+            'imgs/helper1.png',
+            'imgs/helper2.png'
           ],
           network: ['dist/everything.min.js.map', 'dist/everything.js'],
           timestamp: true
