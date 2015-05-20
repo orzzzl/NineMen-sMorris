@@ -120,9 +120,15 @@ angular.module('myApp')
                             if (draggingPiece !== null)
                                 draggingPiece.style['z-index'] = ++nextZIndex;
 
-                            var color = $scope.turnIndex === 0 ? 'W' : 'B';
+                            if (row === undefined || col === undefined)
+                                return;
 
-                            if ($scope.board [row][col] != color)
+                            if (row < 0 || row > 2 || col < 0 || col > 7)
+                                return;
+                                 
+                            var color = $scope.turnIndex === 0 ? 'W' : 'B';
+                   
+                            if ($scope.board [row][col] !== color)
                                 return; 
                         }
                         if (phase === 4 || phase === 1) {
