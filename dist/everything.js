@@ -649,7 +649,7 @@ angular.module('myApp')
                         col = 7; row = 2;
                     }
 
-                    if (type === "touchstart" ) {//&& !draggingStartedRowCol) {
+                    if (type === "touchstart" && !draggingStartedRowCol) {
                         // drag started
                         if ((phase === 2 || phase === 3)) {
                             draggingStartRaw = {roww: rowtmp, col: coltmp};
@@ -658,16 +658,22 @@ angular.module('myApp')
                             if (draggingPiece !== null)
                                 draggingPiece.style['z-index'] = ++nextZIndex;
 
-                            if (row === undefined || col === undefined)
+                            if (row === undefined || col === undefined) {
+                                canceled ();
                                 return;
+                            }
 
-                            if (row < 0 || row > 2 || col < 0 || col > 7)
+                            if (row < 0 || row > 2 || col < 0 || col > 7) {
+                                canceled ();
                                 return;
+                            }
 
                             var color = $scope.turnIndex === 0 ? 'W' : 'B';
                    
-                            if ($scope.board [row][col] !== color)
-                                return; 
+                            if ($scope.board [row][col] !== color) {
+                                canceled ();
+                                return;
+                            }
                         }
                         if (phase === 4 || phase === 1) {
                             $rootScope.$apply(function () {
@@ -711,8 +717,13 @@ angular.module('myApp')
                     }
                 }
                 if (type === "touchend" || type === "touchcancel" || type === "touchleave") {
-                    // drag ended
-                    // return the piece to it's original style (then angular will take care to hide it).
+                    canceled ();
+                }
+            }
+
+            function canceled () {
+                  // drag ended
+                  // return the piece to it's original style (then angular will take care to hide it).
                     var tmp = getSquareTopLeft(rowtmp, coltmp);
                     setDraggingPieceTopLeft(tmp);
                  //   draggingLines.style.display = "none";
@@ -722,7 +733,7 @@ angular.module('myApp')
                     }
                     draggingStartedRowCol = null;
                     draggingPiece = null;
-                }
+
             }
             function setDraggingPieceTopLeft(topLeft) {
                 var originalSize = getSquareTopLeft(draggingStartRaw.roww, draggingStartRaw.col);
