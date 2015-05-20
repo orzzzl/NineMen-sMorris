@@ -113,11 +113,16 @@ angular.module('myApp')
 
                     if (type === "touchstart" && !draggingStartedRowCol) {
                         // drag started
-                        if ($scope.board[row][col] && (phase === 2 || phase === 3)) {
+                        if ((phase === 2 || phase === 3)) {
                             draggingStartRaw = {roww: rowtmp, col: coltmp};
                             draggingStartedRowCol = {row: row, col: col};
                             draggingPiece = document.getElementById("e2e_test_img_" + draggingStartedRowCol.row + "x" + draggingStartedRowCol.col);
                             draggingPiece.style['z-index'] = ++nextZIndex;
+
+                            var color = $scope.turnIndex === 0 ? 'W' : 'B';
+
+                            if ($scope.board [row][col] != color)
+                                return; 
                         }
                         if (phase === 4 || phase === 1) {
                             $rootScope.$apply(function () {
@@ -164,9 +169,6 @@ angular.module('myApp')
                     // drag ended
                     // return the piece to it's original style (then angular will take care to hide it).
                     var tmp = getSquareTopLeft(rowtmp, coltmp);
-                    console.log ("^^^^^^");
-                    console.log (tmp);
-                    console.log ("rowtmp" + rowtmp + "coltmp" + coltmp);
                     setDraggingPieceTopLeft(tmp);
                  //   draggingLines.style.display = "none";
                     if (draggingPiece !== null) {
@@ -197,10 +199,6 @@ angular.module('myApp')
             function dragDone(from, to) {
 
                 $rootScope.$apply(function () {
-
-
-                    console.log (from);
-                    console.log (to);
 
                     $log.info(["Clicked on cell:", from.row, from.col]);
                     if (window.location.search === '?throwException') { // to test encoding a stack trace with sourcemap
