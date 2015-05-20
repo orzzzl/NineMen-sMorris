@@ -111,7 +111,7 @@ angular.module('myApp')
                         col = 7; row = 2;
                     }
 
-                    if (type === "touchstart" && !draggingStartedRowCol) {
+                    if (type === "touchstart" ) {//&& !draggingStartedRowCol) {
                         // drag started
                         if ((phase === 2 || phase === 3)) {
                             draggingStartRaw = {roww: rowtmp, col: coltmp};
@@ -125,7 +125,7 @@ angular.module('myApp')
 
                             if (row < 0 || row > 2 || col < 0 || col > 7)
                                 return;
-                                 
+
                             var color = $scope.turnIndex === 0 ? 'W' : 'B';
                    
                             if ($scope.board [row][col] !== color)
