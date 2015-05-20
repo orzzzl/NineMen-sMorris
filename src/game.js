@@ -117,7 +117,8 @@ angular.module('myApp')
                             draggingStartRaw = {roww: rowtmp, col: coltmp};
                             draggingStartedRowCol = {row: row, col: col};
                             draggingPiece = document.getElementById("e2e_test_img_" + draggingStartedRowCol.row + "x" + draggingStartedRowCol.col);
-                            draggingPiece.style['z-index'] = ++nextZIndex;
+                            if (draggingPiece !== null)
+                                draggingPiece.style['z-index'] = ++nextZIndex;
 
                             var color = $scope.turnIndex === 0 ? 'W' : 'B';
 
@@ -181,8 +182,10 @@ angular.module('myApp')
             }
             function setDraggingPieceTopLeft(topLeft) {
                 var originalSize = getSquareTopLeft(draggingStartRaw.roww, draggingStartRaw.col);
-                draggingPiece.style.left = (topLeft.left - originalSize.left + gameArea.clientWidth * 0.03) + "px";
-                draggingPiece.style.top = (topLeft.top - originalSize.top + gameArea.clientHeight * 0.03) + "px";
+                if (draggingPiece !== null) {
+                    draggingPiece.style.left = (topLeft.left - originalSize.left + gameArea.clientWidth * 0.03) + "px";
+                    draggingPiece.style.top = (topLeft.top - originalSize.top + gameArea.clientHeight * 0.03) + "px";
+                }
             }
             function getSquareWidthHeight() {
                 return {
